@@ -12,58 +12,66 @@ namespace SimpleRestServices.Client.Json
     {
         private readonly IRetryLogic<Response, int> _retryLogic;
         private readonly IRequestLogger _logger;
+        private readonly IUrlBuilder _urlBuilder;
 
-        public JsonRestServices() : this(new RequestRetryLogic(), null) { }
-        public JsonRestServices(IRetryLogic<Response, int> retryLogic, IRequestLogger logger)
+        public JsonRestServices(IRetryLogic<Response, int> retryLogic = null, IRequestLogger logger = null, IUrlBuilder urlBuilder = null)
         {
+            if(retryLogic == null)
+                retryLogic = new RequestRetryLogic();
+            if(urlBuilder == null)
+                urlBuilder = new UrlBuilder();
+
             _retryLogic = retryLogic;
             _logger = logger;
+            _urlBuilder = urlBuilder;
         }
 
-        public Response<T> Execute<T, TBody>(string url, HttpMethod method, TBody body, Dictionary<string, string> headers, RequestSettings settings)
+        public Response<T> Execute<T, TBody>(string url, HttpMethod method, TBody body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
-            return Execute<T, TBody>(new Uri(url), method, body, headers, settings);
+            return Execute<T, TBody>(new Uri(url), method, body, headers, queryStringParameters, settings);
         }
 
-        public Response<T> Execute<T, TBody>(Uri url, HttpMethod method, TBody body, Dictionary<string, string> headers, RequestSettings settings)
+        public Response<T> Execute<T, TBody>(Uri url, HttpMethod method, TBody body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters,  RequestSettings settings)
         {
             var rawBody = JsonConvert.SerializeObject(body, new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
-            return Execute<T>(url, method, rawBody, headers, settings);
+            return Execute<T>(url, method, rawBody, headers, queryStringParameters, settings);
         }
 
-        public Response<T> Execute<T>(string url, HttpMethod method, string body, Dictionary<string, string> headers, RequestSettings settings)
+        public Response<T> Execute<T>(string url, HttpMethod method, string body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
-            return Execute<T>(new Uri(url), method, body, headers, settings);
+            return Execute<T>(new Uri(url), method, body, headers, queryStringParameters, settings);
         }
 
-        public Response<T> Execute<T>(Uri url, HttpMethod method, string body, Dictionary<string, string> headers, RequestSettings settings)
+        public Response<T> Execute<T>(Uri url, HttpMethod method, string body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
-            return Execute(url, method, (resp, isError) => BuildWebResponse<T>(resp), body, headers, settings) as Response<T>;
+            return Execute(url, method, (resp, isError) => BuildWebResponse<T>(resp), body, headers, queryStringParameters, settings) as Response<T>;
         }
 
-        public Response Execute<TBody>(string url, HttpMethod method, TBody body, Dictionary<string, string> headers, RequestSettings settings)
+        public Response Execute<TBody>(string url, HttpMethod method, TBody body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
-            return Execute(new Uri(url), method, body, headers, settings);
+            return Execute(new Uri(url), method, body, headers, queryStringParameters, settings);
         }
 
-        public Response Execute<TBody>(Uri url, HttpMethod method, TBody body, Dictionary<string, string> headers, RequestSettings settings)
+        public Response Execute<TBody>(Uri url, HttpMethod method, TBody body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
             var rawBody = JsonConvert.SerializeObject(body, new JsonSerializerSettings(){NullValueHandling = NullValueHandling.Ignore});
-            return Execute(url, method, rawBody, headers, settings);
+            return Execute(url, method, rawBody, headers, queryStringParameters, settings);
         }
 
-        public Response Execute(string url, HttpMethod method, string body, Dictionary<string, string> headers, RequestSettings settings)
+        public Response Execute(string url, HttpMethod method, string body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
-            return Execute(new Uri(url), method, body, headers, settings);
+            return Execute(new Uri(url), method, body, headers, queryStringParameters, settings);
         }
 
-        public Response Execute(Uri url, HttpMethod method, string body, Dictionary<string, string> headers, RequestSettings settings)
+        public Response Execute(Uri url, HttpMethod method, string body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
-            return Execute(url, method, null, body, headers, settings);
+            return Execute(url, method, null, body, headers, queryStringParameters, settings);
         }
 
-        private Response Execute(Uri url, HttpMethod method, Func<HttpWebResponse, bool, Response> callback, string body, Dictionary<string, string> headers, RequestSettings settings)
+        private Response Execute(Uri url, HttpMethod method, Func<HttpWebResponse, bool, Response> callback, string body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
+            url = _urlBuilder.Build(url, queryStringParameters);
+
             if (settings == null)
                 settings = new JsonRequestSettings();
             else
@@ -127,6 +135,13 @@ namespace SimpleRestServices.Client.Json
                 var endTime = DateTime.UtcNow;
 
                 LogExternalServiceCall(method.ToString(), url.OriginalString, body, response, startTime, endTime);
+
+                if (settings.ResponseActions != null && settings.ResponseActions.ContainsKey(response.StatusCode))
+                {
+                    var action = settings.ResponseActions[response.StatusCode];
+                    if(action != null)
+                        action(response);
+                }
 
                 return response;
             }, settings.Non200SuccessCodes, settings.RetryCount, settings.RetryDelayInMS);

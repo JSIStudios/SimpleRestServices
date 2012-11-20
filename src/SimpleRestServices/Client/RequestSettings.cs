@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SimpleRestServices.Client
 {
@@ -9,6 +10,7 @@ namespace SimpleRestServices.Client
         public int RetryDelayInMS { get; set; }
         public IEnumerable<int> Non200SuccessCodes { get; set; }
         public abstract string Accept { get; set; }
+        public Dictionary<int, Action<Response>> ResponseActions { get; set; }
 
         protected RequestSettings()
         {

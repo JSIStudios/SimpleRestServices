@@ -23,7 +23,7 @@ namespace SimpleRestServices.Client
 
                 retryCount = retryCount - 1;
 
-                if (retryDelayInMs > 0)
+                if (retryDelayInMs > 0 && retryCount > 0)
                     Thread.Sleep(retryDelayInMs);
             }
             while (retryCount >= 0);
