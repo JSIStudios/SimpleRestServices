@@ -1,4 +1,4 @@
-﻿namespace SimpleRestServices.Client.Json
+﻿namespace JSIStudios.SimpleRESTServices.Client.Json
 {
     public class JsonRequestSettings : RequestSettings
     {

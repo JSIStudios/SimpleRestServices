@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 
-namespace SimpleRestServices.Client
+namespace JSIStudios.SimpleRESTServices.Client
 {
     [Serializable]
     public class Response

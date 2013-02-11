@@ -1,4 +1,4 @@
-﻿namespace SimpleRestServices.Core
+﻿namespace JSIStudios.SimpleRESTServices.Core
 {
     public interface ITextCleaner
     {

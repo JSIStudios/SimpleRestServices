@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web;
-using SimpleRestServices.Core;
+﻿using System.Web;
+using JSIStudios.SimpleRESTServices.Core;
 
-namespace SimpleRestServices.Server
+namespace JSIStudios.SimpleRESTServices.Server
 {
     public class HtmlTagReplacerAndCleaner : ITextCleaner
     {

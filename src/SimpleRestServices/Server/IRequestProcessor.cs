@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Specialized;
 
-namespace SimpleRestServices.Server
+namespace JSIStudios.SimpleRESTServices.Server
 {
     public interface IRequestProcessor
     {

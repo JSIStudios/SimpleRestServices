@@ -1,4 +1,4 @@
-﻿namespace SimpleRestServices.Client
+﻿namespace JSIStudios.SimpleRESTServices.Client
 {
     public enum HttpMethod
     {

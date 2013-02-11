@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SimpleRestServices.Client
+namespace JSIStudios.SimpleRESTServices.Client
 {
     public interface IRestService
     {
