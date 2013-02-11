@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 
 namespace SimpleRestServices.Client
 {
+    [Serializable]
     public class Response
     {
         public int StatusCode { get; private set; }
@@ -27,6 +29,7 @@ namespace SimpleRestServices.Client
         }
     }
 
+    [Serializable]
     public class Response<T> : Response
     {
         public T Data { get; private set; }
@@ -49,6 +52,7 @@ namespace SimpleRestServices.Client
                 (baseResponse == null) ? null : baseResponse.RawBody) { }
     }
 
+    [Serializable]
     public class HttpHeader
     {
         public string Key { get; set; }
