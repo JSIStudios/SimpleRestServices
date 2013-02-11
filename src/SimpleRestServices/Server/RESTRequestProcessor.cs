@@ -6,7 +6,7 @@ using System.ServiceModel.Web;
 using System.Text;
 using System.Web;
 
-namespace SimpleRestServices.Server
+namespace JSIStudios.SimpleRESTServices.Server
 {
     public class RESTRequestProcessor : IRequestProcessor
     {

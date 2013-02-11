@@ -8,8 +8,8 @@
     <ProjectGuid>{4A44EB7C-06D5-43F0-B660-F684CBAAC99F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SimpleRestServices</RootNamespace>
-    <AssemblyName>SimpleRestServices</AssemblyName>
+    <RootNamespace>JSIStudios.SimpleRESTServices</RootNamespace>
+    <AssemblyName>SimpleRESTServices</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
