@@ -87,6 +87,9 @@ namespace SimpleRestServices.Client.Json
                 req.ContentType = settings.ContentType;
                 req.Accept = settings.Accept;
 
+                if (!string.IsNullOrWhiteSpace(settings.UserAgent))
+                    req.UserAgent = settings.UserAgent;
+
                 if (headers != null)
                 {
                     foreach (var header in headers)
