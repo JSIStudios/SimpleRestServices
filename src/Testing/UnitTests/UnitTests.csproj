@@ -9,7 +9,7 @@
     <ProjectGuid>{BB206928-0F2E-46A1-B438-D3ED9AF72BA1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SimpleRestServices.Testing.UnitTests</RootNamespace>
+    <RootNamespace>JSIStudios.SimpleRestServices.Testing.UnitTests</RootNamespace>
     <AssemblyName>UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

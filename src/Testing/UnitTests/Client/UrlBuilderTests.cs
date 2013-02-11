@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using JSIStudios.SimpleRESTServices.Client;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SimpleRestServices.Client;
 
-namespace SimpleRestServices.Testing.UnitTests.Client
+namespace JSIStudios.SimpleRestServices.Testing.UnitTests.Client
 {
     [TestClass]
     public class UrlBuilderTests

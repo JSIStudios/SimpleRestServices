@@ -27,6 +27,7 @@
 ipch/
 obj/
 [Bb]in
+[Oo]bj
 [Dd]ebug*/
 [Rr]elease*/
 Ankh.NoLoad
@@ -51,5 +52,8 @@ _ReSharper*/
 #SQL Source Control
 CommandLineHooks.xml
 
-# mstest test results
+#MSTest Test Results
 TestResults
+
+#NuGet
+*.nupkg

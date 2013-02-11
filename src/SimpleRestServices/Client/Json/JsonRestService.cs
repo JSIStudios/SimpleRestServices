@@ -6,7 +6,7 @@ using System.Net;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace SimpleRestServices.Client.Json
+namespace JSIStudios.SimpleRESTServices.Client.Json
 {
     public class JsonRestServices : IRestService
     {

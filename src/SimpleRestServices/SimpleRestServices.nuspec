@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>alanquillin</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/JSIStudios/SimpleRestServices/wiki/License</licenseUrl>
+    <projectUrl>https://github.com/JSIStudios/SimpleRestServices</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>https://github.com/JSIStudios/SimpleRestServices/wiki/v$version$</releaseNotes>
+    <copyright>Copyright 2013</copyright>
+    <tags>REST REST_client</tags>
+  </metadata>
+</package>
