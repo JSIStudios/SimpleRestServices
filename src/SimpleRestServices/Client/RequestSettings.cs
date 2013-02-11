@@ -11,6 +11,7 @@ namespace SimpleRestServices.Client
         public IEnumerable<int> Non200SuccessCodes { get; set; }
         public abstract string Accept { get; set; }
         public Dictionary<int, Action<Response>> ResponseActions { get; set; }
+        public string UserAgent { get; set; }
 
         protected RequestSettings()
         {
