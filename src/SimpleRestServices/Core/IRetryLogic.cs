@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace JSIStudios.SimpleRESTServices
+namespace JSIStudios.SimpleRESTServices.Core
 {
     public interface IRetryLogic<T, in T2>
     {

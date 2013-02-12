@@ -51,12 +51,4 @@ namespace JSIStudios.SimpleRESTServices.Client
                 (baseResponse == null) ? null : baseResponse.Headers,
                 (baseResponse == null) ? null : baseResponse.RawBody) { }
     }
-
-    [Serializable]
-    public class HttpHeader
-    {
-        public string Key { get; set; }
-
-        public string Value { get; set; }
-    }  
 }
