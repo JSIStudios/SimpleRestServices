@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JSIStudios.SimpleRESTServices.Core;
 
 namespace JSIStudios.SimpleRESTServices.Client
 {
-    public interface IUrlBuilder
-    {
-        Uri Build(Uri baseUrl, Dictionary<string, string> queryStringParameters);
-    }
-
     public class UrlBuilder : IUrlBuilder
     {
         public Uri Build(Uri baseUrl, Dictionary<string, string> queryStringParameters)
