@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using JSIStudios.SimpleRESTServices.Core;
 
 namespace JSIStudios.SimpleRESTServices.Client
 {

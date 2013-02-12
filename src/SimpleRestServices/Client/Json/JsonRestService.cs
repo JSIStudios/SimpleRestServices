@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using JSIStudios.SimpleRESTServices.Core;
 using Newtonsoft.Json;
 
 namespace JSIStudios.SimpleRESTServices.Client.Json
@@ -137,7 +138,9 @@ namespace JSIStudios.SimpleRESTServices.Client.Json
 
                 var endTime = DateTime.UtcNow;
 
-                LogExternalServiceCall(method.ToString(), url.OriginalString, body, response, startTime, endTime);
+                // Log the request
+                if (_logger != null)
+                    _logger.Log(method, url.OriginalString, headers, body, response, startTime, endTime);
 
                 if (settings.ResponseActions != null && settings.ResponseActions.ContainsKey(response.StatusCode))
                 {
@@ -176,16 +179,5 @@ namespace JSIStudios.SimpleRESTServices.Client.Json
             catch (JsonReaderException) { }
             return new Response<T>(baseReponse, data);
         }
-
-        private void LogExternalServiceCall(string http_verb, string uri, string request_details, Response response, DateTime request_start_date_utc, DateTime request_end_date_utc)
-        {
-            if(_logger != null)
-                _logger.Log(http_verb, uri, string.IsNullOrWhiteSpace(request_details) ? string.Empty : request_details, response.StatusCode, response.Status, response.Headers.ToArray(), response.RawBody, request_start_date_utc, request_end_date_utc, "SYSTEM_Web");
-        }
-    }
-
-    public interface IRequestLogger
-    {
-        void Log(string httpVerb, string uri, string details, int statusCode, string status, HttpHeader[] headers, string rawResponseBody, DateTime requestStartDateUtc, DateTime requestEndDateUtc, string createdBy);
     }
 }
