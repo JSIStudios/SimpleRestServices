@@ -91,6 +91,9 @@ namespace JSIStudios.SimpleRESTServices.Client.Json
                 if (!string.IsNullOrWhiteSpace(settings.UserAgent))
                     req.UserAgent = settings.UserAgent;
 
+                if (settings.Credecials != null)
+                    req.Credentials = settings.Credecials;
+
                 if (headers != null)
                 {
                     foreach (var header in headers)
