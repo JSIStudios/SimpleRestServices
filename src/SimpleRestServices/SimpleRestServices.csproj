@@ -60,10 +60,17 @@
     <Compile Include="Core\ITextCleaner.cs" />
     <Compile Include="Core\IRetryLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Core\Exceptions\BadWebRequestException.cs" />
     <Compile Include="Server\FullHtmlTagCleaner.cs" />
     <Compile Include="Server\HtmlTagReplacerAndCleaner.cs" />
-    <Compile Include="Server\IRequestProcessor.cs" />
+    <Compile Include="Core\IRequestProcessor.cs" />
+    <Compile Include="Core\Exceptions\HttpHeaderNotFoundException.cs" />
+    <Compile Include="Core\Exceptions\HttpResourceNotFoundException.cs" />
+    <Compile Include="Core\Exceptions\HttpResourceNotModifiedException.cs" />
+    <Compile Include="Server\EventArgs\RESTRequestCompletedEventArgs.cs" />
+    <Compile Include="Server\EventArgs\RESTRequestErrorEventArgs.cs" />
     <Compile Include="Server\RESTRequestProcessor.cs" />
+    <Compile Include="Server\EventArgs\RESTRequestStartedEventArgs.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
