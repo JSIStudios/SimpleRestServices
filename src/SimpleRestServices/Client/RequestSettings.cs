@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 
 namespace JSIStudios.SimpleRESTServices.Client
 {
@@ -12,6 +13,7 @@ namespace JSIStudios.SimpleRESTServices.Client
         public abstract string Accept { get; set; }
         public Dictionary<int, Action<Response>> ResponseActions { get; set; }
         public string UserAgent { get; set; }
+        public ICredentials Credecials { get; set; }
 
         protected RequestSettings()
         {
