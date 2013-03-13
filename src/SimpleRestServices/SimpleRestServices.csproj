@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Client\HttpHeader.cs" />
     <Compile Include="Client\HttpMethod.cs" />
+    <Compile Include="Client\ResponseOfT.cs" />
     <Compile Include="Core\IRestService.cs" />
     <Compile Include="Core\IUrlBuilder.cs" />
     <Compile Include="Core\IRequestLogger.cs" />

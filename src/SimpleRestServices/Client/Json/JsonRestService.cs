@@ -15,7 +15,9 @@ namespace JSIStudios.SimpleRESTServices.Client.Json
         private readonly IRequestLogger _logger;
         private readonly IUrlBuilder _urlBuilder;
 
-        public JsonRestServices(IRetryLogic<Response, int> retryLogic = null, IRequestLogger logger = null, IUrlBuilder urlBuilder = null)
+        public JsonRestServices():this(null, null, null){}
+        public JsonRestServices(IRequestLogger requestLogger):this(null, requestLogger, null){}
+        public JsonRestServices(IRetryLogic<Response, int> retryLogic, IRequestLogger logger, IUrlBuilder urlBuilder)
         {
             if(retryLogic == null)
                 retryLogic = new RequestRetryLogic();
@@ -77,49 +79,50 @@ namespace JSIStudios.SimpleRESTServices.Client.Json
                 settings = new JsonRequestSettings();
             else
             {
-                if(!(settings is JsonRequestSettings))
+                if (!(settings is JsonRequestSettings))
                     throw new Exception("Unsupported settings type: JsonRestService only support the JsonRequestSettings");
             }
 
             return _retryLogic.Execute(() =>
             {
-                var req = WebRequest.Create(url) as HttpWebRequest;
-                req.Method = method.ToString();
-                req.ContentType = settings.ContentType;
-                req.Accept = settings.Accept;
-
-                if (!string.IsNullOrWhiteSpace(settings.UserAgent))
-                    req.UserAgent = settings.UserAgent;
-
-                if (settings.Credecials != null)
-                    req.Credentials = settings.Credecials;
-
-                if (headers != null)
-                {
-                    foreach (var header in headers)
-                    {
-                        req.Headers.Add(header.Key, header.Value);
-                    }
-                }
-
-                // Encode the parameters as form data:
-                if ((method == HttpMethod.POST || method == HttpMethod.PUT) && !string.IsNullOrWhiteSpace(body))
-                {
-                    byte[] formData = UTF8Encoding.UTF8.GetBytes(body);
-                    req.ContentLength = formData.Length;
-
-                    // Send the request:
-                    using (Stream post = req.GetRequestStream())
-                    {
-                        post.Write(formData, 0, formData.Length);
-                    }
-                }
+                Response response;
 
                 var startTime = DateTime.UtcNow;
-                Response response;
 
                 try
                 {
+                    var req = WebRequest.Create(url) as HttpWebRequest;
+                    req.Method = method.ToString();
+                    req.ContentType = settings.ContentType;
+                    req.Accept = settings.Accept;
+
+                    if (!string.IsNullOrWhiteSpace(settings.UserAgent))
+                        req.UserAgent = settings.UserAgent;
+
+                    if (settings.Credecials != null)
+                        req.Credentials = settings.Credecials;
+
+                    if (headers != null)
+                    {
+                        foreach (var header in headers)
+                        {
+                            req.Headers.Add(header.Key, header.Value);
+                        }
+                    }
+
+                    // Encode the parameters as form data:
+                    if ((method == HttpMethod.POST || method == HttpMethod.PUT) && !string.IsNullOrWhiteSpace(body))
+                    {
+                        byte[] formData = UTF8Encoding.UTF8.GetBytes(body);
+                        req.ContentLength = formData.Length;
+
+                        // Send the request:
+                        using (Stream post = req.GetRequestStream())
+                        {
+                            post.Write(formData, 0, formData.Length);
+                        }
+                    }
+
                     using (var resp = req.GetResponse() as HttpWebResponse)
                     {
                         if (callback != null)
@@ -130,12 +133,19 @@ namespace JSIStudios.SimpleRESTServices.Client.Json
                 }
                 catch (WebException ex)
                 {
-                    using (var resp = ex.Response as HttpWebResponse)
+                    try
                     {
-                        if (callback != null)
-                            response = callback(resp, true);
-                        else
-                            response = BuildWebResponse(resp);
+                        using (var resp = ex.Response as HttpWebResponse)
+                        {
+                            if (callback != null)
+                                response = callback(resp, true);
+                            else
+                                response = BuildWebResponse(resp);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        response = null;
                     }
                 }
 
@@ -145,10 +155,10 @@ namespace JSIStudios.SimpleRESTServices.Client.Json
                 if (_logger != null)
                     _logger.Log(method, url.OriginalString, headers, body, response, startTime, endTime);
 
-                if (settings.ResponseActions != null && settings.ResponseActions.ContainsKey(response.StatusCode))
+                if (response != null && settings.ResponseActions != null && settings.ResponseActions.ContainsKey(response.StatusCode))
                 {
                     var action = settings.ResponseActions[response.StatusCode];
-                    if(action != null)
+                    if (action != null)
                         action(response);
                 }
 
@@ -161,14 +171,23 @@ namespace JSIStudios.SimpleRESTServices.Client.Json
             if (resp == null)
                 return new Response(0, null, null);
 
-            string respBody;
-            using (var reader = new StreamReader(resp.GetResponseStream()))
+            try
             {
-                respBody = reader.ReadToEnd();
-            }
+                string respBody;
+                using (var reader = new StreamReader(resp.GetResponseStream()))
+                {
+                    respBody = reader.ReadToEnd();
+                }
 
-            var respHeaders = resp.Headers.AllKeys.Select(key => new HttpHeader() { Key = key, Value = resp.GetResponseHeader(key) }).ToList();
-            return new Response(resp.StatusCode, respHeaders, respBody);
+                var respHeaders =
+                    resp.Headers.AllKeys.Select(key => new HttpHeader() { Key = key, Value = resp.GetResponseHeader(key) })
+                        .ToList();
+                return new Response(resp.StatusCode, respHeaders, respBody);
+            }
+            catch (Exception)
+            {
+                return new Response(0, null, null);
+            }
         }
 
         private Response<T> BuildWebResponse<T>(HttpWebResponse resp)
@@ -177,9 +196,11 @@ namespace JSIStudios.SimpleRESTServices.Client.Json
             T data = default(T);
             try
             {
-                data = JsonConvert.DeserializeObject<T>(baseReponse.RawBody);
+                if (baseReponse != null && !string.IsNullOrWhiteSpace(baseReponse.RawBody))
+                    data = JsonConvert.DeserializeObject<T>(baseReponse.RawBody);
             }
             catch (JsonReaderException) { }
+            catch (JsonSerializationException) { }
             return new Response<T>(baseReponse, data);
         }
     }
