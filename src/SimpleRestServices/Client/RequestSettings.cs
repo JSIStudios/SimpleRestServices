@@ -14,6 +14,7 @@ namespace JSIStudios.SimpleRESTServices.Client
         public Dictionary<int, Action<Response>> ResponseActions { get; set; }
         public string UserAgent { get; set; }
         public ICredentials Credecials { get; set; }
+        public int Timeout { get; set; }
 
         protected RequestSettings()
         {
