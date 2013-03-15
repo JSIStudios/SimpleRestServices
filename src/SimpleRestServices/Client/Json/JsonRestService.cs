@@ -71,7 +71,77 @@ namespace JSIStudios.SimpleRESTServices.Client.Json
             return Execute(url, method, null, body, headers, queryStringParameters, settings);
         }
 
-        private Response Execute(Uri url, HttpMethod method, Func<HttpWebResponse, bool, Response> callback, string body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
+        private Response Execute(Uri url, HttpMethod method, Func<HttpWebResponse, bool, Response> responseBuilderCallback, string body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
+        {
+            return ExecuteRequest(url, method, responseBuilderCallback, headers, queryStringParameters, settings, (req) =>
+            {
+                // Encode the parameters as form data:
+                if (!string.IsNullOrWhiteSpace(body))
+                {
+                    byte[] formData = UTF8Encoding.UTF8.GetBytes(body);
+                    req.ContentLength = formData.Length;
+
+                    // Send the request:
+                    using (Stream post = req.GetRequestStream())
+                    {
+                        post.Write(formData, 0, formData.Length);
+                    }
+                }
+
+                return body;
+            });     
+        }
+
+        public Response<T> Stream<T>(string url, HttpMethod method, Stream content, int chunkSize, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings, Action<long> progressUpdated)
+        {
+            return Stream<T>(new Uri(url), method, content, chunkSize, headers, queryStringParameters, settings, progressUpdated)  as Response<T>;
+        }
+
+        public Response Stream(string url, HttpMethod method, Stream content, int chunkSize, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings, Action<long> progressUpdated)
+        {
+            return Stream(new Uri(url), method, content, chunkSize, headers, queryStringParameters, settings, progressUpdated);
+        }
+
+        public Response<T> Stream<T>(Uri url, HttpMethod method, Stream content, int chunkSize, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings, Action<long> progressUpdated)
+        {
+            return Stream(url, method, (resp, isError) => BuildWebResponse<T>(resp), content, chunkSize, headers, queryStringParameters, settings, progressUpdated) as Response<T>;
+        }
+
+        public Response Stream(Uri url, HttpMethod method, Stream content, int chunkSize, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings, Action<long> progressUpdated)
+        {
+            return Stream(url, method, null, content, chunkSize, headers, queryStringParameters, settings, progressUpdated);
+        }
+
+        private Response Stream(Uri url, HttpMethod method, Func<HttpWebResponse, bool, Response> responseBuilderCallback, Stream contents, int chunkSize, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings, Action<long> progressUpdated)
+        {
+            return ExecuteRequest(url, method, responseBuilderCallback, headers, queryStringParameters, settings, (req) =>
+            {
+                long bytesWritten = 0;
+
+                req.AllowWriteStreamBuffering = false;
+                if (req.ContentLength == -1L)
+                    req.SendChunked = true;
+                
+                using (Stream stream = req.GetRequestStream())
+                {
+                    var buffer = new byte[chunkSize];
+                    int count;
+                    while ((count = contents.Read(buffer, 0, chunkSize)) > 0)
+                    {
+                        stream.Write(buffer, 0, count);
+                        if (progressUpdated != null)
+                        {
+                            bytesWritten += count;
+                            progressUpdated(bytesWritten);
+                        }
+                    }
+                }
+
+                return "[STREAM CONTENT]";
+            });
+        }
+
+        private Response ExecuteRequest(Uri url, HttpMethod method, Func<HttpWebResponse, bool, Response> responseBuilderCallback, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings, Func<HttpWebRequest, string> executeCallback)
         {
             url = _urlBuilder.Build(url, queryStringParameters);
 
@@ -89,12 +159,16 @@ namespace JSIStudios.SimpleRESTServices.Client.Json
 
                 var startTime = DateTime.UtcNow;
 
+                string requestBodyText = null;
                 try
                 {
                     var req = WebRequest.Create(url) as HttpWebRequest;
                     req.Method = method.ToString();
                     req.ContentType = settings.ContentType;
                     req.Accept = settings.Accept;
+
+                    if (settings.Timeout > default(int))
+                        req.Timeout = settings.Timeout;
 
                     if (!string.IsNullOrWhiteSpace(settings.UserAgent))
                         req.UserAgent = settings.UserAgent;
@@ -110,23 +184,12 @@ namespace JSIStudios.SimpleRESTServices.Client.Json
                         }
                     }
 
-                    // Encode the parameters as form data:
-                    if ((method == HttpMethod.POST || method == HttpMethod.PUT) && !string.IsNullOrWhiteSpace(body))
-                    {
-                        byte[] formData = UTF8Encoding.UTF8.GetBytes(body);
-                        req.ContentLength = formData.Length;
-
-                        // Send the request:
-                        using (Stream post = req.GetRequestStream())
-                        {
-                            post.Write(formData, 0, formData.Length);
-                        }
-                    }
+                    requestBodyText = executeCallback(req);
 
                     using (var resp = req.GetResponse() as HttpWebResponse)
                     {
-                        if (callback != null)
-                            response = callback(resp, false);
+                        if (responseBuilderCallback != null)
+                            response = responseBuilderCallback(resp, false);
                         else
                             response = BuildWebResponse(resp);
                     }
@@ -137,8 +200,8 @@ namespace JSIStudios.SimpleRESTServices.Client.Json
                     {
                         using (var resp = ex.Response as HttpWebResponse)
                         {
-                            if (callback != null)
-                                response = callback(resp, true);
+                            if (responseBuilderCallback != null)
+                                response = responseBuilderCallback(resp, true);
                             else
                                 response = BuildWebResponse(resp);
                         }
@@ -148,12 +211,11 @@ namespace JSIStudios.SimpleRESTServices.Client.Json
                         response = null;
                     }
                 }
-
                 var endTime = DateTime.UtcNow;
 
                 // Log the request
                 if (_logger != null)
-                    _logger.Log(method, url.OriginalString, headers, body, response, startTime, endTime);
+                    _logger.Log(method, url.OriginalString, headers, requestBodyText, response, startTime, endTime);
 
                 if (response != null && settings.ResponseActions != null && settings.ResponseActions.ContainsKey(response.StatusCode))
                 {
