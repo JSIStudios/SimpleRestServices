@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 
 namespace JSIStudios.SimpleRESTServices.Client
 {
@@ -18,5 +19,6 @@ namespace JSIStudios.SimpleRESTServices.Client
         Response Stream(Uri url, HttpMethod method, Stream content, int chunkSize, Dictionary<string, string> headers = null, Dictionary<string, string> queryStringParameters = null, RequestSettings settings = null, Action<long> progressUpdated = null);
         Response<T> Stream<T>(string url, HttpMethod method, Stream content, int chunkSize, Dictionary<string, string> headers = null, Dictionary<string, string> queryStringParameters = null, RequestSettings settings = null, Action<long> progressUpdated = null);
         Response Stream(string url, HttpMethod method, Stream content, int chunkSize, Dictionary<string, string> headers = null, Dictionary<string, string> queryStringParameters = null, RequestSettings settings = null, Action<long> progressUpdated = null);
+        Response Execute(Uri url, HttpMethod method, Func<HttpWebResponse, bool, Response> responseBuilderCallback, string body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings);
     }
 }
