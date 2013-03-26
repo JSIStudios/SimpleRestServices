@@ -71,7 +71,7 @@ namespace JSIStudios.SimpleRESTServices.Client.Json
             return Execute(url, method, null, body, headers, queryStringParameters, settings);
         }
 
-        private Response Execute(Uri url, HttpMethod method, Func<HttpWebResponse, bool, Response> responseBuilderCallback, string body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
+        public Response Execute(Uri url, HttpMethod method, Func<HttpWebResponse, bool, Response> responseBuilderCallback, string body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
             return ExecuteRequest(url, method, responseBuilderCallback, headers, queryStringParameters, settings, (req) =>
             {
