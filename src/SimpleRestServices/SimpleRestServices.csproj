@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.10\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -48,7 +48,10 @@
   <ItemGroup>
     <Compile Include="Client\HttpHeader.cs" />
     <Compile Include="Client\HttpMethod.cs" />
+    <Compile Include="Client\IStringSerializer.cs" />
+    <Compile Include="Client\Json\JsonStringSerializer.cs" />
     <Compile Include="Client\ResponseOfT.cs" />
+    <Compile Include="Client\RestServiceBase.cs" />
     <Compile Include="Core\IRestService.cs" />
     <Compile Include="Core\IUrlBuilder.cs" />
     <Compile Include="Core\IRequestLogger.cs" />
@@ -73,7 +76,6 @@
     <Compile Include="Server\RESTRequestProcessor.cs" />
     <Compile Include="Server\EventArgs\RESTRequestStartedEventArgs.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
