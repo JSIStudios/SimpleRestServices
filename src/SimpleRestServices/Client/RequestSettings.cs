@@ -4,19 +4,21 @@ using System.Net;
 
 namespace JSIStudios.SimpleRESTServices.Client
 {
-    public abstract class RequestSettings
+    public class RequestSettings
     {
-        public abstract string ContentType { get; set; }
+        public virtual string ContentType { get; set; }
         public int RetryCount { get; set; }
         public int RetryDelayInMS { get; set; }
         public IEnumerable<int> Non200SuccessCodes { get; set; }
-        public abstract string Accept { get; set; }
+        public virtual string Accept { get; set; }
         public Dictionary<int, Action<Response>> ResponseActions { get; set; }
         public string UserAgent { get; set; }
         public ICredentials Credecials { get; set; }
         public int Timeout { get; set; }
+        public bool ChunkRequest { get; set; }
+        public Dictionary<string, string> ExtendedLogginData { get; set; } 
 
-        protected RequestSettings()
+        public RequestSettings()
         {
             RetryCount = 0;
             RetryDelayInMS = 0;
