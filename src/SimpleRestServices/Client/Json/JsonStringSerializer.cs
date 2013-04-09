@@ -7,6 +7,9 @@ namespace JSIStudios.SimpleRESTServices.Client.Json
     {
         public T Deserialize<T>(string content)
         {
+            if (string.IsNullOrWhiteSpace(content))
+                return default(T);
+
             try
             {
                 return JsonConvert.DeserializeObject<T>(content,
@@ -27,7 +30,9 @@ namespace JSIStudios.SimpleRESTServices.Client.Json
 
         public string Serialize<T>(T obj)
         {
-            
+            if (Equals(obj, default(T)))
+                return null;
+
             try
             {
                 return JsonConvert.SerializeObject(obj,
