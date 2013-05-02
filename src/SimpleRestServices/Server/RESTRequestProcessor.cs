@@ -32,7 +32,7 @@ namespace JSIStudios.SimpleRESTServices.Server
             {
                 callBack(requestId);
                 return null;
-            }, responseHeaders);
+            }, responseHeaders, false);
         }
 
         public virtual TResult Execute<TResult>(Func<Guid, TResult> callBack)
@@ -48,7 +48,7 @@ namespace JSIStudios.SimpleRESTServices.Server
             {
                 result = callBack(requestId);
                 return result;
-            }, responseHeaders);
+            }, responseHeaders, true);
 
             if (WebOperationContext.Current != null && WebOperationContext.Current.OutgoingResponse.StatusCode == HttpStatusCode.OK)
                 if (result == null)
@@ -61,7 +61,7 @@ namespace JSIStudios.SimpleRESTServices.Server
 
         #region Private methods
 
-        protected void ExecuteSafely<TResult>(Func<Guid, TResult> callBack, NameValueCollection responseHeaders)
+        protected void ExecuteSafely<TResult>(Func<Guid, TResult> callBack, NameValueCollection responseHeaders, bool throwNotFoundErrorOnDefaultResponse)
         {
             var requestId = Guid.NewGuid();
 
@@ -80,8 +80,9 @@ namespace JSIStudios.SimpleRESTServices.Server
                 if (RequestCompleted != null)
                     RequestCompleted(this, new RESTRequestCompletedEventArgs(requestId, result, stopwatch.ElapsedMilliseconds));
 
-                if (EqualityComparer<TResult>.Default.Equals(result, default(TResult)))
-                    throw new HttpResourceNotFoundException("Resource not found.");
+                if(throwNotFoundErrorOnDefaultResponse)
+                    if (EqualityComparer<TResult>.Default.Equals(result, default(TResult)))
+                        throw new HttpResourceNotFoundException("Resource not found.");
 
                 if (WebOperationContext.Current != null)
                 {
@@ -109,10 +110,7 @@ namespace JSIStudios.SimpleRESTServices.Server
                 if (OnError != null)
                     OnError(this, new RESTRequestErrorEventArgs(requestId, ex));
 
-                if (WebOperationContext.Current != null)
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotModified;
-                else
-                    SetHttpErrorStatusCode(HttpStatusCode.NotModified);
+                SetHttpErrorStatusCode(HttpStatusCode.NotModified);
             }
             catch (WebFaultException)
             {
@@ -120,13 +118,7 @@ namespace JSIStudios.SimpleRESTServices.Server
             }
             catch (Exception ex)
             {
-                if (OnError != null)
-                    OnError(this, new RESTRequestErrorEventArgs(requestId, ex));
-
-                if (WebOperationContext.Current != null)
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
-
-                SetHttpErrorStatusCode(string.Format("There was an error processing the request:{0}", ex.Message), HttpStatusCode.InternalServerError);
+                ProcessUnhandledException(ex, requestId);
             }
         }
 
@@ -151,7 +143,21 @@ namespace JSIStudios.SimpleRESTServices.Server
 
         protected virtual void SetHttpErrorStatusCode(HttpStatusCode statusCode)
         {
+            if (WebOperationContext.Current != null)
+                WebOperationContext.Current.OutgoingResponse.StatusCode = statusCode;
+            
             throw new WebFaultException(statusCode);
+        }
+
+        protected virtual void ProcessUnhandledException(Exception ex, Guid requestId)
+        {
+            if (OnError != null)
+                OnError(this, new RESTRequestErrorEventArgs(requestId, ex));
+
+            if (WebOperationContext.Current != null)
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
+
+            SetHttpErrorStatusCode(string.Format("There was an error processing the request:{0}", ex.Message), HttpStatusCode.InternalServerError);
         }
 
         #endregion
