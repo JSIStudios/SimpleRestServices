@@ -20,13 +20,13 @@ namespace JSIStudios.SimpleRESTServices.Server
         public event EventHandler<RESTRequestErrorEventArgs> OnError;
 
         #region Interface methods
-        
-        public virtual void Execute(Action<Guid> callBack)
+
+        public virtual void Execute(Action<Guid> callBack, HttpStatusCode successStatus = HttpStatusCode.OK)
         {
-            Execute(callBack, null);
+            Execute(callBack, null, successStatus);
         }
 
-        public virtual void Execute(Action<Guid> callBack, NameValueCollection responseHeaders)
+        public virtual void Execute(Action<Guid> callBack, NameValueCollection responseHeaders, HttpStatusCode successStatus = HttpStatusCode.OK)
         {
             ExecuteSafely<object>((requestId) =>
             {
@@ -35,12 +35,12 @@ namespace JSIStudios.SimpleRESTServices.Server
             }, responseHeaders, false);
         }
 
-        public virtual TResult Execute<TResult>(Func<Guid, TResult> callBack)
+        public virtual TResult Execute<TResult>(Func<Guid, TResult> callBack, HttpStatusCode successStatus = HttpStatusCode.OK)
         {
-            return Execute(callBack, null);
+            return Execute(callBack, null, successStatus);
         }
 
-        public virtual TResult Execute<TResult>(Func<Guid, TResult> callBack, NameValueCollection responseHeaders)
+        public virtual TResult Execute<TResult>(Func<Guid, TResult> callBack, NameValueCollection responseHeaders, HttpStatusCode successStatus = HttpStatusCode.OK)
         {
             TResult result = default(TResult);
 
@@ -48,11 +48,7 @@ namespace JSIStudios.SimpleRESTServices.Server
             {
                 result = callBack(requestId);
                 return result;
-            }, responseHeaders, true);
-
-            if (WebOperationContext.Current != null && WebOperationContext.Current.OutgoingResponse.StatusCode == HttpStatusCode.OK)
-                if (result == null)
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotFound;
+            }, responseHeaders);
             
             return result;
         }
@@ -61,7 +57,7 @@ namespace JSIStudios.SimpleRESTServices.Server
 
         #region Private methods
 
-        protected void ExecuteSafely<TResult>(Func<Guid, TResult> callBack, NameValueCollection responseHeaders, bool throwNotFoundErrorOnDefaultResponse)
+        protected void ExecuteSafely<TResult>(Func<Guid, TResult> callBack, NameValueCollection responseHeaders, bool throwNotFoundErrorOnDefaultResponse = true, HttpStatusCode successStatus = HttpStatusCode.OK)
         {
             var requestId = Guid.NewGuid();
 
@@ -84,12 +80,7 @@ namespace JSIStudios.SimpleRESTServices.Server
                     if (EqualityComparer<TResult>.Default.Equals(result, default(TResult)))
                         throw new HttpResourceNotFoundException("Resource not found.");
 
-                if (WebOperationContext.Current != null)
-                {
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
-                    if (responseHeaders != null)
-                        WebOperationContext.Current.OutgoingResponse.Headers.Add(responseHeaders);
-                }
+                ProcessSuccessResponse(successStatus, responseHeaders);
             }
             catch (BadWebRequestException ex)
             {
@@ -160,6 +151,15 @@ namespace JSIStudios.SimpleRESTServices.Server
             SetHttpErrorStatusCode(string.Format("There was an error processing the request:{0}", ex.Message), HttpStatusCode.InternalServerError);
         }
 
+        protected virtual void ProcessSuccessResponse(HttpStatusCode successResponse, NameValueCollection responseHeaders)
+        {
+            if (WebOperationContext.Current != null)
+            {
+                WebOperationContext.Current.OutgoingResponse.StatusCode = successResponse;
+                if (responseHeaders != null)
+                    WebOperationContext.Current.OutgoingResponse.Headers.Add(responseHeaders);
+            }
+        }
         #endregion
     }
 }
