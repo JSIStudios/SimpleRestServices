@@ -169,6 +169,8 @@ namespace JSIStudios.SimpleRESTServices.Client
                     req.Method = method.ToString();
                     req.ContentType = settings.ContentType;
                     req.Accept = settings.Accept;
+                    if(settings.ContentLength > 0 || settings.AllowZeroContentLength)
+                        req.ContentLength = settings.ContentLength;
 
                     if (settings.Timeout > default(int))
                         req.Timeout = settings.Timeout;
