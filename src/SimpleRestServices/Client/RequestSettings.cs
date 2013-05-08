@@ -16,7 +16,9 @@ namespace JSIStudios.SimpleRESTServices.Client
         public ICredentials Credecials { get; set; }
         public int Timeout { get; set; }
         public bool ChunkRequest { get; set; }
-        public Dictionary<string, string> ExtendedLogginData { get; set; } 
+        public Dictionary<string, string> ExtendedLogginData { get; set; }
+        public long ContentLength { get; set; }
+        public bool AllowZeroContentLength { get; set; }
 
         public RequestSettings()
         {
