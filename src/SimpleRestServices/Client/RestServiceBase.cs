@@ -201,19 +201,15 @@ namespace JSIStudios.SimpleRESTServices.Client
                 }
                 catch (WebException ex)
                 {
-                    try
+                    if (ex.Response == null)
+                        throw;
+
+                    using (var resp = ex.Response as HttpWebResponse)
                     {
-                        using (var resp = ex.Response as HttpWebResponse)
-                        {
-                            if (responseBuilderCallback != null)
-                                response = responseBuilderCallback(resp, true);
-                            else
-                                response = BuildWebResponse(resp);
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        response = null;
+                        if (responseBuilderCallback != null)
+                            response = responseBuilderCallback(resp, true);
+                        else
+                            response = BuildWebResponse(resp);
                     }
                 }
                 var endTime = DateTime.UtcNow;
@@ -236,25 +232,18 @@ namespace JSIStudios.SimpleRESTServices.Client
         private Response BuildWebResponse(HttpWebResponse resp)
         {
             if (resp == null)
-                return new Response(0, null, null);
+                throw new ArgumentNullException("resp");
 
-            try
+            string respBody;
+            using (var reader = new StreamReader(resp.GetResponseStream()))
             {
-                string respBody;
-                using (var reader = new StreamReader(resp.GetResponseStream()))
-                {
-                    respBody = reader.ReadToEnd();
-                }
+                respBody = reader.ReadToEnd();
+            }
 
-                var respHeaders =
-                    resp.Headers.AllKeys.Select(key => new HttpHeader() { Key = key, Value = resp.GetResponseHeader(key) })
-                        .ToList();
-                return new Response(resp.StatusCode, respHeaders, respBody);
-            }
-            catch (Exception)
-            {
-                return new Response(0, null, null);
-            }
+            var respHeaders =
+                resp.Headers.AllKeys.Select(key => new HttpHeader() { Key = key, Value = resp.GetResponseHeader(key) })
+                    .ToList();
+            return new Response(resp.StatusCode, respHeaders, respBody);
         }
 
         private Response<T> BuildWebResponse<T>(HttpWebResponse resp)
