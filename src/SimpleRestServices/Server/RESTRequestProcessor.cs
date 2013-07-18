@@ -74,7 +74,7 @@ namespace JSIStudios.SimpleRESTServices.Server
                 stopwatch.Stop();
 
                 if (RequestCompleted != null)
-                    RequestCompleted(this, new RESTRequestCompletedEventArgs(requestId, result, stopwatch.ElapsedMilliseconds));
+                    RequestCompleted(this, new RESTRequestCompletedEventArgs(requestId, result, stopwatch.Elapsed));
 
                 if(throwNotFoundErrorOnDefaultResponse)
                     if (EqualityComparer<TResult>.Default.Equals(result, default(TResult)))
