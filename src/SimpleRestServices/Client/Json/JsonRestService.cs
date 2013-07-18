@@ -13,7 +13,7 @@ namespace JSIStudios.SimpleRESTServices.Client.Json
     {
         public JsonRestServices():this(null) {}
         public JsonRestServices(IRequestLogger requestLogger) : this(requestLogger, new RequestRetryLogic(), new UrlBuilder(), new JsonStringSerializer()) {}
-        public JsonRestServices(IRequestLogger logger, IRetryLogic<Response, int> retryLogic, IUrlBuilder urlBuilder, IStringSerializer stringSerializer) : base(stringSerializer, logger, retryLogic, urlBuilder) { }
+        public JsonRestServices(IRequestLogger logger, IRetryLogic<Response, HttpStatusCode> retryLogic, IUrlBuilder urlBuilder, IStringSerializer stringSerializer) : base(stringSerializer, logger, retryLogic, urlBuilder) { }
 
         public override Response Execute(Uri url, HttpMethod method, Func<HttpWebResponse, bool, Response> responseBuilderCallback, string body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
