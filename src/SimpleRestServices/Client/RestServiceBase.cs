@@ -160,7 +160,7 @@ namespace JSIStudios.SimpleRESTServices.Client
             {
                 Response response;
 
-                var startTime = DateTime.UtcNow;
+                var startTime = DateTimeOffset.UtcNow;
 
                 string requestBodyText = null;
                 try
@@ -216,7 +216,7 @@ namespace JSIStudios.SimpleRESTServices.Client
                         response = null;
                     }
                 }
-                var endTime = DateTime.UtcNow;
+                var endTime = DateTimeOffset.UtcNow;
 
                 // Log the request
                 if (_logger != null)
