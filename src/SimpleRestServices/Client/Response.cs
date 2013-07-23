@@ -7,7 +7,7 @@ namespace JSIStudios.SimpleRESTServices.Client
     [Serializable]
     public class Response
     {
-        public int StatusCode { get; private set; }
+        public HttpStatusCode StatusCode { get; private set; }
 
         public string Status { get; private set; }
 
@@ -15,7 +15,7 @@ namespace JSIStudios.SimpleRESTServices.Client
 
         public string RawBody { get; private set; }
 
-        public Response(int responseCode, string status, IList<HttpHeader> headers, string rawBody)
+        public Response(HttpStatusCode responseCode, string status, IList<HttpHeader> headers, string rawBody)
         {
             StatusCode = responseCode;
             Status = status;
@@ -24,7 +24,7 @@ namespace JSIStudios.SimpleRESTServices.Client
         }
 
         public Response(HttpStatusCode statusCode, IList<HttpHeader> headers, string rawBody)
-            : this((int)statusCode, statusCode.ToString(), headers, rawBody)
+            : this(statusCode, statusCode.ToString(), headers, rawBody)
         {
         }
     }
