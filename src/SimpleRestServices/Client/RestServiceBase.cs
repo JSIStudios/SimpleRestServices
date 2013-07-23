@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -235,7 +236,7 @@ namespace JSIStudios.SimpleRESTServices.Client
                 throw new ArgumentNullException("resp");
 
             string respBody;
-            using (var reader = new StreamReader(resp.GetResponseStream()))
+            using (var reader = new StreamReader(resp.GetResponseStream(), GetEncoding(resp)))
             {
                 respBody = reader.ReadToEnd();
             }
@@ -244,6 +245,54 @@ namespace JSIStudios.SimpleRESTServices.Client
                 resp.Headers.AllKeys.Select(key => new HttpHeader() { Key = key, Value = resp.GetResponseHeader(key) })
                     .ToList();
             return new Response(resp.StatusCode, respHeaders, respBody);
+        }
+
+        /// <summary>
+        /// Determines the <see cref="Encoding"/> to use for reading an <see cref="HttpWebResponse"/>
+        /// body as text based on the response headers.
+        /// </summary>
+        /// <remarks>
+        /// If the response provides the <c>Content-Encoding</c> header, then it is used.
+        /// Otherwise, if the optional <c>charset</c> parameter to the <c>Content-Type</c> header
+        /// is provided, then it is used. If no encoding is specified in the headers, or if the
+        /// encoding specified in the headers is not valid, <see cref="Encoding.Default"/> is
+        /// used.
+        /// </remarks>
+        /// <param name="response">The response to examine</param>
+        /// <returns>The <see cref="Encoding"/> to use when reading the response stream as text.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="response"/> is <c>null</c>.</exception>
+        private Encoding GetEncoding(HttpWebResponse response)
+        {
+            if (response == null)
+                throw new ArgumentNullException("response");
+            Contract.Ensures(Contract.Result<Encoding>() != null);
+            Contract.EndContractBlock();
+
+            string contentEncoding = response.ContentEncoding;
+            if (!string.IsNullOrEmpty(contentEncoding))
+            {
+                try
+                {
+                    return Encoding.GetEncoding(contentEncoding);
+                }
+                catch (ArgumentException)
+                {
+                    // continue below
+                }
+            }
+
+            string characterSet = response.CharacterSet;
+            if (string.IsNullOrEmpty(characterSet))
+                return Encoding.Default;
+
+            try
+            {
+                return Encoding.GetEncoding(characterSet) ?? Encoding.Default;
+            }
+            catch (ArgumentException)
+            {
+                return Encoding.Default;
+            }
         }
 
         private Response<T> BuildWebResponse<T>(HttpWebResponse resp)
