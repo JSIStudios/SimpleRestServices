@@ -10,6 +10,9 @@ namespace JSIStudios.SimpleRESTServices.Client
         /// <inheritdoc/>
         public Uri Build(Uri baseUrl, Dictionary<string, string> queryStringParameters)
         {
+            if (baseUrl == null)
+                throw new ArgumentNullException("baseUrl");
+
             return new Uri(Build(baseUrl.AbsoluteUri, queryStringParameters));
         }
 

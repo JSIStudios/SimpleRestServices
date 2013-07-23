@@ -33,6 +33,13 @@ namespace JSIStudios.SimpleRESTServices.Client.Json
         /// <param name="retryLogic">The retry logic to use for REST operations.</param>
         /// <param name="urlBuilder">The URL builder to use for constructing URLs with query parameters.</param>
         /// <param name="stringSerializer">The string serializer to use for requests from this service.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If <paramref name="retryLogic"/> is <c>null</c>.
+        /// <para>-or-</para>
+        /// <para>If <paramref name="urlBuilder"/> is <c>null</c>.</para>
+        /// <para>-or-</para>
+        /// <para>If <paramref name="stringSerializer"/> is <c>null</c>.</para>
+        /// </exception>
         public JsonRestServices(IRequestLogger logger, IRetryLogic<Response, HttpStatusCode> retryLogic, IUrlBuilder urlBuilder, IStringSerializer stringSerializer) : base(stringSerializer, logger, retryLogic, urlBuilder) { }
 
         /// <summary>

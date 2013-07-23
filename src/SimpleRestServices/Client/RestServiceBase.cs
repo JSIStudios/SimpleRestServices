@@ -47,8 +47,22 @@ namespace JSIStudios.SimpleRESTServices.Client
         /// <param name="logger">The logger to use for requests. Specify <c>null</c> if requests do not need to be logged.</param>
         /// <param name="retryLogic">The retry logic to use for REST operations.</param>
         /// <param name="urlBuilder">The URL builder to use for constructing URLs with query parameters.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If <paramref name="stringSerializer"/> is <c>null</c>.
+        /// <para>-or-</para>
+        /// <para>If <paramref name="retryLogic"/> is <c>null</c>.</para>
+        /// <para>-or-</para>
+        /// <para>If <paramref name="urlBuilder"/> is <c>null</c>.</para>
+        /// </exception>
         protected RestServiceBase(IStringSerializer stringSerializer, IRequestLogger logger, IRetryLogic<Response, HttpStatusCode> retryLogic, IUrlBuilder urlBuilder)
         {
+            if (stringSerializer == null)
+                throw new ArgumentNullException("stringSerializer");
+            if (retryLogic == null)
+                throw new ArgumentNullException("retryLogic");
+            if (urlBuilder == null)
+                throw new ArgumentNullException("urlBuilder");
+
             _retryLogic = retryLogic;
             _logger = logger;
             _urlBuilder = urlBuilder;

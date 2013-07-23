@@ -25,6 +25,7 @@ namespace JSIStudios.SimpleRESTServices.Core
         /// or <c>null</c> if there are no parameters.</param>
         /// <returns>A <see cref="Uri"/> constructed from <paramref name="baseUrl"/> and the specified
         /// <paramref name="queryStringParameters"/>.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="baseUrl"/> is <c>null</c>.</exception>
         Uri Build(Uri baseUrl, Dictionary<string, string> queryStringParameters);
     }
 }

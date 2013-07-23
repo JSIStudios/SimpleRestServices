@@ -19,6 +19,12 @@ namespace JSIStudios.SimpleRESTServices.Core
         /// <param name="retryCount">The number of times to retry a failed operation. This parameter is optional. The default value is 1.</param>
         /// <param name="retryDelay">The delay between retry operations. This parameter is optional. If the value is <c>null</c>, the default is <see cref="TimeSpan.Zero"/> (no delay).</param>
         /// <returns>Returns the result of a successful execution of <paramref name="logic"/>.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="logic"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// If <paramref name="retryCount"/> is less than zero.
+        /// <para>-or-</para>
+        /// <para>If <paramref name="retryDelay"/> is less than <see cref="TimeSpan.Zero"/>.</para>
+        /// </exception>
         T Execute(Func<T> logic, int retryCount = 1, TimeSpan? retryDelay = null);
 
         /// <summary>
@@ -30,6 +36,12 @@ namespace JSIStudios.SimpleRESTServices.Core
         /// <param name="retryCount">The number of times to retry a failed operation. This parameter is optional. The default value is 1.</param>
         /// <param name="retryDelay">The delay between retry operations. This parameter is optional. If the value is <c>null</c>, the default is <see cref="TimeSpan.Zero"/> (no delay).</param>
         /// <returns>Returns the result of a successful execution of <paramref name="logic"/>.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="logic"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// If <paramref name="retryCount"/> is less than zero.
+        /// <para>-or-</para>
+        /// <para>If <paramref name="retryDelay"/> is less than <see cref="TimeSpan.Zero"/>.</para>
+        /// </exception>
         T Execute(Func<T> logic, IEnumerable<T2> successValues, int retryCount = 1, TimeSpan? retryDelay = null);
     }
 }

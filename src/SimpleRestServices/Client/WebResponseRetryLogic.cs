@@ -30,12 +30,26 @@ namespace JSIStudios.SimpleRESTServices.Client
         /// <inheritdoc/>
         public Response Execute(Func<Response> callback, int retryCount = 1, TimeSpan? retryDelay = null)
         {
-            return Execute(callback, Enumerable.Empty<HttpStatusCode>(), retryCount);
+            if (callback == null)
+                throw new ArgumentNullException("callback");
+            if (retryCount < 0)
+                throw new ArgumentOutOfRangeException("retryCount");
+            if (retryDelay.HasValue && retryDelay < TimeSpan.Zero)
+                throw new ArgumentOutOfRangeException("retryDelay");
+
+            return Execute(callback, Enumerable.Empty<HttpStatusCode>(), retryCount, retryDelay);
         }
 
         /// <inheritdoc/>
         public Response Execute(Func<Response> callback, IEnumerable<HttpStatusCode> non200SuccessCodes, int retryCount = 1, TimeSpan? retryDelay = null)
         {
+            if (callback == null)
+                throw new ArgumentNullException("callback");
+            if (retryCount < 0)
+                throw new ArgumentOutOfRangeException("retryCount");
+            if (retryDelay.HasValue && retryDelay < TimeSpan.Zero)
+                throw new ArgumentOutOfRangeException("retryDelay");
+
             Response response;
             do
             {
