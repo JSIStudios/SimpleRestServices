@@ -8,14 +8,14 @@ namespace JSIStudios.SimpleRESTServices.Server.EventArgs
 
         public object Response { get; private set; }
 
-        public long ExecutionTime { get; private set; }
+        public TimeSpan ExecutionTime { get; private set; }
 
-        public RESTRequestCompletedEventArgs(Guid requestId, object response, long exectionTime)
+        public RESTRequestCompletedEventArgs(Guid requestId, object response, TimeSpan executionTime)
             : base()
         {
             RequestId = requestId;
             Response = response;
-            ExecutionTime = exectionTime;
+            ExecutionTime = executionTime;
 
         }
     }
