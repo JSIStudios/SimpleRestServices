@@ -70,6 +70,17 @@ namespace JSIStudios.SimpleRESTServices.Client.Json
         /// <param name="innerException">The exception that is the cause of the current exception.
         /// If the <paramref name="innerException"/> parameter is not a null reference, the current
         /// exception is raised in a <b>catch</b> block that handles the inner exception.</param>
-        public StringSerializationException(Exception innerException) : base(innerException.Message, innerException) {}
+        public StringSerializationException(Exception innerException)
+            : base(GetMessageFromInnerException(innerException, "An error occurred during string serialization."), innerException)
+        {
+        }
+
+        private static string GetMessageFromInnerException(Exception innerException, string defaultMessage)
+        {
+            if (innerException == null)
+                return defaultMessage;
+
+            return innerException.Message ?? defaultMessage;
+        }
     }
 }
