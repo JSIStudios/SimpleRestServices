@@ -96,6 +96,10 @@ namespace JSIStudios.SimpleRESTServices.Client
         /// <summary>
         /// Gets or sets the request timeout.
         /// </summary>
+        /// <value>
+        /// The time to wait before the request times out. In the base
+        /// implementation, the default value is 100,000 milliseconds (100 seconds).
+        /// </value>
         public TimeSpan Timeout { get; set; }
 
         /// <summary>
@@ -151,6 +155,7 @@ namespace JSIStudios.SimpleRESTServices.Client
             RetryCount = 0;
             RetryDelay = TimeSpan.Zero;
             Non200SuccessCodes = null;
+            Timeout = TimeSpan.FromMilliseconds(100000);
         }
     }
 }
