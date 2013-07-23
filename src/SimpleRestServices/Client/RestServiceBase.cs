@@ -440,8 +440,8 @@ namespace JSIStudios.SimpleRESTServices.Client
             }
 
             var respHeaders =
-                resp.Headers.AllKeys.Select(key => new HttpHeader() { Key = key, Value = resp.GetResponseHeader(key) })
-                    .ToList();
+                resp.Headers.AllKeys.Select(key => new HttpHeader(key, resp.GetResponseHeader(key)))
+                .ToList();
             return new Response(resp.StatusCode, respHeaders, respBody);
         }
 
