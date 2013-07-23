@@ -29,6 +29,17 @@ namespace JSIStudios.SimpleRESTServices.Client
             _stringSerializer = stringSerializer;
         }
 
+        /// <summary>
+        /// Gets the default <see cref="RequestSettings"/> to use for requests sent from this service.
+        /// </summary>
+        protected virtual RequestSettings DefaultRequestSettings
+        {
+            get
+            {
+                return new RequestSettings();
+            }
+        }
+
         public virtual Response<T> Execute<T, TBody>(string url, HttpMethod method, TBody body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
             return Execute<T, TBody>(new Uri(url), method, body, headers, queryStringParameters, settings);
@@ -155,7 +166,7 @@ namespace JSIStudios.SimpleRESTServices.Client
             url = _urlBuilder.Build(url, queryStringParameters);
 
             if (settings == null)
-                settings = new RequestSettings();
+                settings = DefaultRequestSettings;
 
             return _retryLogic.Execute(() =>
             {
