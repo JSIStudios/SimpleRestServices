@@ -7,6 +7,7 @@ namespace JSIStudios.SimpleRESTServices.Client
 {
     public class UrlBuilder : IUrlBuilder
     {
+        /// <inheritdoc/>
         public Uri Build(Uri baseUrl, Dictionary<string, string> queryStringParameters)
         {
             return new Uri(Build(baseUrl.AbsoluteUri, queryStringParameters));

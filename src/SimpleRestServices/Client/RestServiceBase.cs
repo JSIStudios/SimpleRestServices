@@ -10,17 +10,43 @@ using JSIStudios.SimpleRESTServices.Core;
 
 namespace JSIStudios.SimpleRESTServices.Client
 {
-    public abstract class RestServiceBase
+    /// <summary>
+    /// Implements basic support for <see cref="IRestService"/> in terms of an implementation
+    /// of <see cref="IRetryLogic{T, T2}"/>, <see cref="IRequestLogger"/>,
+    /// <see cref="IUrlBuilder"/>, and <see cref="IStringSerializer"/>.
+    /// </summary>
+    public abstract class RestServiceBase : IRestService
     {
         private readonly IRetryLogic<Response, HttpStatusCode> _retryLogic;
         private readonly IRequestLogger _logger;
         private readonly IUrlBuilder _urlBuilder;
         private readonly IStringSerializer _stringSerializer;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="RestServiceBase"/> with the specified string serializer
+        /// and the default retry logic and URL builder.
+        /// </summary>
+        /// <param name="stringSerializer">The string serializer to use for requests from this service.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="stringSerializer"/> is <c>null</c>.</exception>
         protected RestServiceBase(IStringSerializer stringSerializer) : this(stringSerializer, null) { }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="RestServiceBase"/> with the specified string serializer
+        /// and logger, and the default retry logic and URL builder.
+        /// </summary>
+        /// <param name="stringSerializer">The string serializer to use for requests from this service.</param>
+        /// <param name="requestLogger">The logger to use for requests. Specify <c>null</c> if requests do not need to be logged.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="stringSerializer"/> is <c>null</c>.</exception>
         protected RestServiceBase(IStringSerializer stringSerializer, IRequestLogger requestLogger) : this(stringSerializer, requestLogger, new RequestRetryLogic(), new UrlBuilder()) { }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="RestServiceBase"/> with the specified string serializer,
+        /// logger, retry logic, and URI builder.
+        /// </summary>
+        /// <param name="stringSerializer">The string serializer to use for requests from this service.</param>
+        /// <param name="logger">The logger to use for requests. Specify <c>null</c> if requests do not need to be logged.</param>
+        /// <param name="retryLogic">The retry logic to use for REST operations.</param>
+        /// <param name="urlBuilder">The URL builder to use for constructing URLs with query parameters.</param>
         protected RestServiceBase(IStringSerializer stringSerializer, IRequestLogger logger, IRetryLogic<Response, HttpStatusCode> retryLogic, IUrlBuilder urlBuilder)
         {
             _retryLogic = retryLogic;
@@ -40,48 +66,57 @@ namespace JSIStudios.SimpleRESTServices.Client
             }
         }
 
+        /// <inheritdoc/>
         public virtual Response<T> Execute<T, TBody>(string url, HttpMethod method, TBody body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
             return Execute<T, TBody>(new Uri(url), method, body, headers, queryStringParameters, settings);
         }
 
+        /// <inheritdoc/>
         public virtual Response<T> Execute<T, TBody>(Uri url, HttpMethod method, TBody body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
             var rawBody = _stringSerializer.Serialize(body);
             return Execute<T>(url, method, rawBody, headers, queryStringParameters, settings);
         }
 
+        /// <inheritdoc/>
         public virtual Response<T> Execute<T>(string url, HttpMethod method, string body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
             return Execute<T>(new Uri(url), method, body, headers, queryStringParameters, settings);
         }
 
+        /// <inheritdoc/>
         public virtual Response<T> Execute<T>(Uri url, HttpMethod method, string body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
             return Execute(url, method, (resp, isError) => BuildWebResponse<T>(resp), body, headers, queryStringParameters, settings) as Response<T>;
         }
 
+        /// <inheritdoc/>
         public virtual Response Execute<TBody>(string url, HttpMethod method, TBody body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
             return Execute(new Uri(url), method, body, headers, queryStringParameters, settings);
         }
 
+        /// <inheritdoc/>
         public virtual Response Execute<TBody>(Uri url, HttpMethod method, TBody body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
             var rawBody = _stringSerializer.Serialize(body);
             return Execute(url, method, rawBody, headers, queryStringParameters, settings);
         }
 
+        /// <inheritdoc/>
         public virtual Response Execute(string url, HttpMethod method, string body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
             return Execute(new Uri(url), method, body, headers, queryStringParameters, settings);
         }
 
+        /// <inheritdoc/>
         public virtual Response Execute(Uri url, HttpMethod method, string body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
             return Execute(url, method, null, body, headers, queryStringParameters, settings);
         }
 
+        /// <inheritdoc/>
         public virtual Response Execute(Uri url, HttpMethod method, Func<HttpWebResponse, bool, Response> responseBuilderCallback, string body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
             return ExecuteRequest(url, method, responseBuilderCallback, headers, queryStringParameters, settings, (req) =>
@@ -103,26 +138,31 @@ namespace JSIStudios.SimpleRESTServices.Client
             });     
         }
 
+        /// <inheritdoc/>
         public virtual Response<T> Stream<T>(string url, HttpMethod method, Stream content, int bufferSize, long maxReadLength, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings, Action<long> progressUpdated)
         {
             return Stream<T>(new Uri(url), method, content, bufferSize, maxReadLength, headers, queryStringParameters, settings, progressUpdated)  as Response<T>;
         }
 
+        /// <inheritdoc/>
         public virtual Response Stream(string url, HttpMethod method, Stream content, int bufferSize, long maxReadLength, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings, Action<long> progressUpdated)
         {
             return Stream(new Uri(url), method, content, bufferSize, maxReadLength, headers, queryStringParameters, settings, progressUpdated);
         }
 
+        /// <inheritdoc/>
         public virtual Response<T> Stream<T>(Uri url, HttpMethod method, Stream content, int bufferSize, long maxReadLength, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings, Action<long> progressUpdated)
         {
             return Stream(url, method, (resp, isError) => BuildWebResponse<T>(resp), content, bufferSize, maxReadLength, headers, queryStringParameters, settings, progressUpdated) as Response<T>;
         }
 
+        /// <inheritdoc/>
         public virtual Response Stream(Uri url, HttpMethod method, Stream content, int bufferSize, long maxReadLength, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings, Action<long> progressUpdated)
         {
             return Stream(url, method, null, content, bufferSize, maxReadLength, headers, queryStringParameters, settings, progressUpdated);
         }
 
+        /// <inheritdoc/>
         public virtual Response Stream(Uri url, HttpMethod method, Func<HttpWebResponse, bool, Response> responseBuilderCallback, Stream contents, int bufferSize, long maxReadLength, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings, Action<long> progressUpdated)
         {
             return ExecuteRequest(url, method, responseBuilderCallback, headers, queryStringParameters, settings, (req) =>
@@ -161,6 +201,7 @@ namespace JSIStudios.SimpleRESTServices.Client
             });
         }
 
+        /// <inheritdoc/>
         public virtual Response ExecuteRequest(Uri url, HttpMethod method, Func<HttpWebResponse, bool, Response> responseBuilderCallback, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings, Func<HttpWebRequest, string> executeCallback)
         {
             url = _urlBuilder.Build(url, queryStringParameters);
