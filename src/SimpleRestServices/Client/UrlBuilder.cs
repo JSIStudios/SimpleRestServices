@@ -19,11 +19,11 @@ namespace JSIStudios.SimpleRESTServices.Client
                 var paramsCombinedList =
                     queryStringParameters.Select(
                         param =>
-                        string.Format("{0}={1}", System.Web.HttpUtility.HtmlEncode(param.Key),
-                                      System.Web.HttpUtility.HtmlEncode(param.Value)));
+                        string.Format("{0}={1}", System.Web.HttpUtility.UrlEncode(param.Key),
+                                      System.Web.HttpUtility.UrlEncode(param.Value)));
                 var paramsCombined = string.Join("&", paramsCombinedList);
 
-                var separator = baseAbsoluteUrl.Contains("?") || baseAbsoluteUrl.Contains(System.Web.HttpUtility.HtmlEncode("?")) ? "&" : "?";
+                var separator = baseAbsoluteUrl.Contains("?") ? "&" : "?";
                 return baseAbsoluteUrl + separator + paramsCombined;
             }
 
