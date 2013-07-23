@@ -172,8 +172,8 @@ namespace JSIStudios.SimpleRESTServices.Client
                     if(settings.ContentLength > 0 || settings.AllowZeroContentLength)
                         req.ContentLength = settings.ContentLength;
 
-                    if (settings.Timeout > default(int))
-                        req.Timeout = settings.Timeout;
+                    if (settings.Timeout > TimeSpan.Zero)
+                        req.Timeout = (int)settings.Timeout.TotalMilliseconds;
 
                     if (!string.IsNullOrWhiteSpace(settings.UserAgent))
                         req.UserAgent = settings.UserAgent;
@@ -226,7 +226,7 @@ namespace JSIStudios.SimpleRESTServices.Client
                 }
 
                 return response;
-            }, settings.Non200SuccessCodes, settings.RetryCount, settings.RetryDelayInMS);
+            }, settings.Non200SuccessCodes, settings.RetryCount, settings.RetryDelay);
         }
 
         private Response BuildWebResponse(HttpWebResponse resp)

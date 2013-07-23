@@ -8,13 +8,13 @@ namespace JSIStudios.SimpleRESTServices.Client
     {
         public virtual string ContentType { get; set; }
         public int RetryCount { get; set; }
-        public int RetryDelayInMS { get; set; }
+        public TimeSpan RetryDelay { get; set; }
         public IEnumerable<HttpStatusCode> Non200SuccessCodes { get; set; }
         public virtual string Accept { get; set; }
         public Dictionary<HttpStatusCode, Action<Response>> ResponseActions { get; set; }
         public string UserAgent { get; set; }
         public ICredentials Credecials { get; set; }
-        public int Timeout { get; set; }
+        public TimeSpan Timeout { get; set; }
         public bool ChunkRequest { get; set; }
         public Dictionary<string, string> ExtendedLogginData { get; set; }
         public long ContentLength { get; set; }
@@ -23,7 +23,7 @@ namespace JSIStudios.SimpleRESTServices.Client
         public RequestSettings()
         {
             RetryCount = 0;
-            RetryDelayInMS = 0;
+            RetryDelay = TimeSpan.Zero;
             Non200SuccessCodes = null;
         }
     }

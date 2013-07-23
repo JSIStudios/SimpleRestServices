@@ -9,12 +9,12 @@ namespace JSIStudios.SimpleRESTServices.Client
 {
     public class RequestRetryLogic : IRetryLogic<Response, HttpStatusCode>
     {
-        public Response Execute(Func<Response> callback, int retryCount = 1, int retryDelayInMs = 0)
+        public Response Execute(Func<Response> callback, int retryCount = 1, TimeSpan? retryDelay = null)
         {
             return Execute(callback, Enumerable.Empty<HttpStatusCode>(), retryCount);
         }
 
-        public Response Execute(Func<Response> callback, IEnumerable<HttpStatusCode> non200SuccessCodes, int retryCount = 1, int retryDelayInMs = 0)
+        public Response Execute(Func<Response> callback, IEnumerable<HttpStatusCode> non200SuccessCodes, int retryCount = 1, TimeSpan? retryDelay = null)
         {
             Response response;
             do
@@ -25,8 +25,8 @@ namespace JSIStudios.SimpleRESTServices.Client
 
                 retryCount = retryCount - 1;
 
-                if (retryDelayInMs > 0 && retryCount > 0)
-                    Thread.Sleep(retryDelayInMs);
+                if (retryDelay != null && retryCount > 0)
+                    Thread.Sleep(retryDelay ?? TimeSpan.Zero);
             }
             while (retryCount >= 0);
 
