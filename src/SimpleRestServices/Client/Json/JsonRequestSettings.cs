@@ -2,10 +2,12 @@
 {
     public class JsonRequestSettings : RequestSettings
     {
+        public static readonly string JsonContentType = "application/json";
+
         public JsonRequestSettings()
         {
-            ContentType = "application/json";
-            Accept = "application/json";
+            ContentType = JsonContentType;
+            Accept = JsonContentType;
         }
     }
 }
