@@ -83,12 +83,20 @@ namespace JSIStudios.SimpleRESTServices.Client
         /// <inheritdoc/>
         public virtual Response<T> Execute<T, TBody>(string url, HttpMethod method, TBody body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
+            if (url == null)
+                throw new ArgumentNullException("url");
+            if (string.IsNullOrEmpty(url))
+                throw new ArgumentException("url cannot be empty");
+
             return Execute<T, TBody>(new Uri(url), method, body, headers, queryStringParameters, settings);
         }
 
         /// <inheritdoc/>
         public virtual Response<T> Execute<T, TBody>(Uri url, HttpMethod method, TBody body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
+            if (url == null)
+                throw new ArgumentNullException("url");
+
             var rawBody = _stringSerializer.Serialize(body);
             return Execute<T>(url, method, rawBody, headers, queryStringParameters, settings);
         }
@@ -96,24 +104,40 @@ namespace JSIStudios.SimpleRESTServices.Client
         /// <inheritdoc/>
         public virtual Response<T> Execute<T>(string url, HttpMethod method, string body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
+            if (url == null)
+                throw new ArgumentNullException("url");
+            if (string.IsNullOrEmpty(url))
+                throw new ArgumentException("url cannot be empty");
+
             return Execute<T>(new Uri(url), method, body, headers, queryStringParameters, settings);
         }
 
         /// <inheritdoc/>
         public virtual Response<T> Execute<T>(Uri url, HttpMethod method, string body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
+            if (url == null)
+                throw new ArgumentNullException("url");
+
             return Execute(url, method, (resp, isError) => BuildWebResponse<T>(resp), body, headers, queryStringParameters, settings) as Response<T>;
         }
 
         /// <inheritdoc/>
         public virtual Response Execute<TBody>(string url, HttpMethod method, TBody body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
+            if (url == null)
+                throw new ArgumentNullException("url");
+            if (string.IsNullOrEmpty(url))
+                throw new ArgumentException("url cannot be empty");
+
             return Execute(new Uri(url), method, body, headers, queryStringParameters, settings);
         }
 
         /// <inheritdoc/>
         public virtual Response Execute<TBody>(Uri url, HttpMethod method, TBody body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
+            if (url == null)
+                throw new ArgumentNullException("url");
+
             var rawBody = _stringSerializer.Serialize(body);
             return Execute(url, method, rawBody, headers, queryStringParameters, settings);
         }
@@ -121,18 +145,31 @@ namespace JSIStudios.SimpleRESTServices.Client
         /// <inheritdoc/>
         public virtual Response Execute(string url, HttpMethod method, string body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
+            if (url == null)
+                throw new ArgumentNullException("url");
+            if (string.IsNullOrEmpty(url))
+                throw new ArgumentException("url cannot be empty");
+
             return Execute(new Uri(url), method, body, headers, queryStringParameters, settings);
         }
 
         /// <inheritdoc/>
         public virtual Response Execute(Uri url, HttpMethod method, string body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
+            if (url == null)
+                throw new ArgumentNullException("url");
+
             return Execute(url, method, null, body, headers, queryStringParameters, settings);
         }
 
         /// <inheritdoc/>
         public virtual Response Execute(Uri url, HttpMethod method, Func<HttpWebResponse, bool, Response> responseBuilderCallback, string body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
         {
+            if (url == null)
+                throw new ArgumentNullException("url");
+            if (responseBuilderCallback == null)
+                throw new ArgumentNullException("responseBuilderCallback");
+
             return ExecuteRequest(url, method, responseBuilderCallback, headers, queryStringParameters, settings, (req) =>
             {
                 // Encode the parameters as form data:
@@ -155,30 +192,79 @@ namespace JSIStudios.SimpleRESTServices.Client
         /// <inheritdoc/>
         public virtual Response<T> Stream<T>(string url, HttpMethod method, Stream content, int bufferSize, long maxReadLength, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings, Action<long> progressUpdated)
         {
+            if (url == null)
+                throw new ArgumentNullException("url");
+            if (content == null)
+                throw new ArgumentNullException("content");
+            if (string.IsNullOrEmpty(url))
+                throw new ArgumentException("url cannot be empty");
+            if (bufferSize <= 0)
+                throw new ArgumentOutOfRangeException("bufferSize");
+            if (maxReadLength < 0)
+                throw new ArgumentOutOfRangeException("maxReadLength");
+
             return Stream<T>(new Uri(url), method, content, bufferSize, maxReadLength, headers, queryStringParameters, settings, progressUpdated)  as Response<T>;
         }
 
         /// <inheritdoc/>
         public virtual Response Stream(string url, HttpMethod method, Stream content, int bufferSize, long maxReadLength, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings, Action<long> progressUpdated)
         {
+            if (url == null)
+                throw new ArgumentNullException("url");
+            if (content == null)
+                throw new ArgumentNullException("content");
+            if (string.IsNullOrEmpty(url))
+                throw new ArgumentException("url cannot be empty");
+            if (bufferSize <= 0)
+                throw new ArgumentOutOfRangeException("bufferSize");
+            if (maxReadLength < 0)
+                throw new ArgumentOutOfRangeException("maxReadLength");
+
             return Stream(new Uri(url), method, content, bufferSize, maxReadLength, headers, queryStringParameters, settings, progressUpdated);
         }
 
         /// <inheritdoc/>
         public virtual Response<T> Stream<T>(Uri url, HttpMethod method, Stream content, int bufferSize, long maxReadLength, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings, Action<long> progressUpdated)
         {
+            if (url == null)
+                throw new ArgumentNullException("url");
+            if (content == null)
+                throw new ArgumentNullException("content");
+            if (bufferSize <= 0)
+                throw new ArgumentOutOfRangeException("bufferSize");
+            if (maxReadLength < 0)
+                throw new ArgumentOutOfRangeException("maxReadLength");
+
             return Stream(url, method, (resp, isError) => BuildWebResponse<T>(resp), content, bufferSize, maxReadLength, headers, queryStringParameters, settings, progressUpdated) as Response<T>;
         }
 
         /// <inheritdoc/>
         public virtual Response Stream(Uri url, HttpMethod method, Stream content, int bufferSize, long maxReadLength, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings, Action<long> progressUpdated)
         {
+            if (url == null)
+                throw new ArgumentNullException("url");
+            if (content == null)
+                throw new ArgumentNullException("content");
+            if (bufferSize <= 0)
+                throw new ArgumentOutOfRangeException("bufferSize");
+            if (maxReadLength < 0)
+                throw new ArgumentOutOfRangeException("maxReadLength");
+
             return Stream(url, method, null, content, bufferSize, maxReadLength, headers, queryStringParameters, settings, progressUpdated);
         }
 
         /// <inheritdoc/>
-        public virtual Response Stream(Uri url, HttpMethod method, Func<HttpWebResponse, bool, Response> responseBuilderCallback, Stream contents, int bufferSize, long maxReadLength, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings, Action<long> progressUpdated)
+        public virtual Response Stream(Uri url, HttpMethod method, Func<HttpWebResponse, bool, Response> responseBuilderCallback, Stream content, int bufferSize, long maxReadLength, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings, Action<long> progressUpdated)
         {
+            if (url == null)
+                throw new ArgumentNullException("url");
+            if (content == null)
+                throw new ArgumentNullException("content");
+            if (bufferSize <= 0)
+                throw new ArgumentOutOfRangeException("bufferSize");
+            if (maxReadLength < 0)
+                throw new ArgumentOutOfRangeException("maxReadLength");
+
             return ExecuteRequest(url, method, responseBuilderCallback, headers, queryStringParameters, settings, (req) =>
             {
                 long bytesWritten = 0;
@@ -188,14 +274,14 @@ namespace JSIStudios.SimpleRESTServices.Client
                     req.SendChunked = settings.ChunkRequest;
                     req.AllowWriteStreamBuffering = false;
 
-                    req.ContentLength = contents.Length > maxReadLength ? maxReadLength : contents.Length;
+                    req.ContentLength = content.Length > maxReadLength ? maxReadLength : content.Length;
                 }
 
                 using (Stream stream = req.GetRequestStream())
                 {
                     var buffer = new byte[bufferSize];
                     int count;
-                    while ((count = contents.Read(buffer, 0, bufferSize)) > 0)
+                    while ((count = content.Read(buffer, 0, bufferSize)) > 0)
                     {
                         if (maxReadLength > 0 && bytesWritten + count > maxReadLength)
                             count = (int) maxReadLength - (int) bytesWritten;
@@ -215,9 +301,56 @@ namespace JSIStudios.SimpleRESTServices.Client
             });
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Executes a REST request indirectly via a callback function <paramref name="executeCallback"/>,
+        /// and using a user-defined callback function <paramref name="responseBuilderCallback"/> for
+        /// constructing the resulting <see cref="Response"/> object.
+        /// </summary>
+        /// <remarks>
+        /// The callback method <paramref name="executeCallback"/> is responsible for setting the body
+        /// of the request, if any, before executing the request. The callback method returns a string
+        /// representation of the body of the final request when available, otherwise returns a string
+        /// indicating the body is no longer available (e.g. was sent as a stream, or is binary). The
+        /// result is only required for passing as an argument to <see cref="IRequestLogger.Log"/>.
+        ///
+        /// <para>The Boolean argument to <paramref name="responseBuilderCallback"/> indicates whether
+        /// or not an exception was thrown while executing the request. The value is <c>true</c>
+        /// if an exception occurred, otherwise <c>false</c>.</para>
+        /// </remarks>
+        /// <param name="url">The base URI.</param>
+        /// <param name="method">The HTTP method to use for the request.</param>
+        /// <param name="responseBuilderCallback">A user-specified function used to construct the resulting <see cref="Response"/>
+        /// object from the <see cref="HttpWebResponse"/> and a Boolean value specifying whether or not a <see cref="WebException"/>
+        /// was thrown during the request. If this value is <c>null</c>, a default method is used to construct
+        /// the resulting <see cref="Response"/> object.</param>
+        /// <param name="headers">
+        /// A collection of custom HTTP headers to include with the request. If the value is
+        /// <c>null</c>, no custom headers are added to the HTTP request.
+        /// </param>
+        /// <param name="queryStringParameters">
+        /// A collection of parameters to add to the query string portion of the request URI.
+        /// If the value is <c>null</c>, no parameters are added to the query string.
+        /// </param>
+        /// <param name="settings">
+        /// The settings to use for the request. If the value is <c>null</c>, the default settings returned
+        /// by <see cref="DefaultRequestSettings"/> will be used for the request.
+        /// </param>
+        /// <param name="executeCallback"></param>
+        /// <returns>Returns a <see cref="Response"/> object containing the HTTP status code, headers,
+        /// and body from the REST response.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// If <paramref name="url"/> is <c>null</c>.
+        /// <para>-or-</para>
+        /// <para>If <paramref name="executeCallback"/> is <c>null</c>.</para>
+        /// </exception>
+        /// <exception cref="NotSupportedException">If <paramref name="method"/> is not supported by the service.</exception>
         public virtual Response ExecuteRequest(Uri url, HttpMethod method, Func<HttpWebResponse, bool, Response> responseBuilderCallback, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings, Func<HttpWebRequest, string> executeCallback)
         {
+            if (url == null)
+                throw new ArgumentNullException("url");
+            if (executeCallback == null)
+                throw new ArgumentNullException("executeCallback");
+
             url = _urlBuilder.Build(url, queryStringParameters);
 
             if (settings == null)
