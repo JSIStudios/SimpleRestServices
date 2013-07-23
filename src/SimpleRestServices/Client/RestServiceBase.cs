@@ -11,7 +11,7 @@ namespace JSIStudios.SimpleRESTServices.Client
 {
     public abstract class RestServiceBase
     {
-        private readonly IRetryLogic<Response, int> _retryLogic;
+        private readonly IRetryLogic<Response, HttpStatusCode> _retryLogic;
         private readonly IRequestLogger _logger;
         private readonly IUrlBuilder _urlBuilder;
         private readonly IStringSerializer _stringSerializer;
@@ -20,7 +20,7 @@ namespace JSIStudios.SimpleRESTServices.Client
 
         protected RestServiceBase(IStringSerializer stringSerializer, IRequestLogger requestLogger) : this(stringSerializer, requestLogger, new RequestRetryLogic(), new UrlBuilder()) { }
 
-        protected RestServiceBase(IStringSerializer stringSerializer, IRequestLogger logger, IRetryLogic<Response, int> retryLogic, IUrlBuilder urlBuilder)
+        protected RestServiceBase(IStringSerializer stringSerializer, IRequestLogger logger, IRetryLogic<Response, HttpStatusCode> retryLogic, IUrlBuilder urlBuilder)
         {
             _retryLogic = retryLogic;
             _logger = logger;

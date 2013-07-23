@@ -9,14 +9,14 @@ namespace JSIStudios.SimpleRESTServices.Client
     {
         public T Data { get; private set; }
 
-        public Response(int responseCode, string status, T data, IList<HttpHeader> headers, string rawBody)
+        public Response(HttpStatusCode responseCode, string status, T data, IList<HttpHeader> headers, string rawBody)
             : base(responseCode, status, headers, rawBody)
         {
             Data = data;
         }
 
         public Response(HttpStatusCode statusCode, T data, IList<HttpHeader> headers, string rawBody)
-            : this((int)statusCode, statusCode.ToString(), data, headers, rawBody)
+            : this(statusCode, statusCode.ToString(), data, headers, rawBody)
         {
         }
 
