@@ -43,7 +43,7 @@ namespace JSIStudios.SimpleRESTServices.Client
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="HttpHeader"/> using the specified
+        /// Initializes a new instance of the <see cref="HttpHeader"/> class using the specified
         /// key and value.
         /// </summary>
         /// <param name="key">The HTTP header key.</param>

@@ -23,7 +23,7 @@ namespace JSIStudios.SimpleRESTServices.Client
         private readonly IStringSerializer _stringSerializer;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="RestServiceBase"/> with the specified string serializer
+        /// Initializes a new instance of the <see cref="RestServiceBase"/> class with the specified string serializer
         /// and the default retry logic and URL builder.
         /// </summary>
         /// <param name="stringSerializer">The string serializer to use for requests from this service.</param>
@@ -31,7 +31,7 @@ namespace JSIStudios.SimpleRESTServices.Client
         protected RestServiceBase(IStringSerializer stringSerializer) : this(stringSerializer, null) { }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="RestServiceBase"/> with the specified string serializer
+        /// Initializes a new instance of the <see cref="RestServiceBase"/> class with the specified string serializer
         /// and logger, and the default retry logic and URL builder.
         /// </summary>
         /// <param name="stringSerializer">The string serializer to use for requests from this service.</param>
@@ -40,7 +40,7 @@ namespace JSIStudios.SimpleRESTServices.Client
         protected RestServiceBase(IStringSerializer stringSerializer, IRequestLogger requestLogger) : this(stringSerializer, requestLogger, new RequestRetryLogic(), new UrlBuilder()) { }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="RestServiceBase"/> with the specified string serializer,
+        /// Initializes a new instance of the <see cref="RestServiceBase"/> class with the specified string serializer,
         /// logger, retry logic, and URI builder.
         /// </summary>
         /// <param name="stringSerializer">The string serializer to use for requests from this service.</param>

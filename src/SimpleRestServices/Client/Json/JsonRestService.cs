@@ -13,20 +13,20 @@ namespace JSIStudios.SimpleRESTServices.Client.Json
     public class JsonRestServices : RestServiceBase, IRestService
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="JsonRestServices"/> with the default
+        /// Initializes a new instance of the <see cref="JsonRestServices"/> class with the default
         /// JSON string serializer, retry logic, and URL builder.
         /// </summary>
         public JsonRestServices():this(null) {}
 
         /// <summary>
-        /// Initializes a new instance of <see cref="JsonRestServices"/> with the specified
+        /// Initializes a new instance of the <see cref="JsonRestServices"/> class with the specified
         /// request logger and the default JSON string serializer and URL builder.
         /// </summary>
         /// <param name="requestLogger">The logger to use for requests. Specify <c>null</c> if requests do not need to be logged.</param>
         public JsonRestServices(IRequestLogger requestLogger) : this(requestLogger, new RequestRetryLogic(), new UrlBuilder(), new JsonStringSerializer()) {}
 
         /// <summary>
-        /// Initializes a new instance of <see cref="JsonRestServices"/> with the specified
+        /// Initializes a new instance of the <see cref="JsonRestServices"/> class with the specified
         /// logger, retry logic, URI builder, and string serializer.
         /// </summary>
         /// <param name="logger">The logger to use for requests. Specify <c>null</c> if requests do not need to be logged.</param>

@@ -103,7 +103,7 @@ namespace JSIStudios.SimpleRESTServices.Client
         public TimeSpan Timeout { get; set; }
 
         /// <summary>
-        /// Gets or sets a value that indicates whether to send data in segments to the
+        /// Gets or sets a value indicating whether to send data in segments to the
         /// Internet resource.
         /// </summary>
         /// <value>
@@ -133,7 +133,7 @@ namespace JSIStudios.SimpleRESTServices.Client
         public long ContentLength { get; set; }
 
         /// <summary>
-        /// Gets or sets whether or not 0 is a valid value for the Content-Length HTTP header
+        /// Gets or sets a value indicating whether or not 0 is a valid value for the Content-Length HTTP header
         /// for this request.
         /// </summary>
         /// <remarks>
@@ -148,7 +148,7 @@ namespace JSIStudios.SimpleRESTServices.Client
         public bool AllowZeroContentLength { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="RequestSettings"/> with the default values.
+        /// Initializes a new instance of the <see cref="RequestSettings"/> class with the default values.
         /// </summary>
         public RequestSettings()
         {

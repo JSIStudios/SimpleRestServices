@@ -18,7 +18,7 @@ namespace JSIStudios.SimpleRESTServices.Client
         public T Data { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Response{T}"/> with the given HTTP status code,
+        /// Initializes a new instance of the <see cref="Response{T}"/> class with the given HTTP status code,
         /// status, strongly-type data, headers, and raw body.
         /// </summary>
         /// <param name="responseCode">The HTTP status code.</param>
@@ -37,7 +37,7 @@ namespace JSIStudios.SimpleRESTServices.Client
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Response{T}"/> with the given HTTP status code,
+        /// Initializes a new instance of the <see cref="Response{T}"/> class with the given HTTP status code,
         /// strongly-type data, headers, and raw body.
         /// </summary>
         /// <param name="statusCode">The HTTP status code.</param>
@@ -54,7 +54,7 @@ namespace JSIStudios.SimpleRESTServices.Client
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Response{T}"/> by adding a strongly-typed
+        /// Initializes a new instance of the <see cref="Response{T}"/> class by adding a strongly-typed
         /// data value to a base response.
         /// </summary>
         /// <param name="baseResponse">The base response.</param>

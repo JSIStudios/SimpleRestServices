@@ -32,7 +32,7 @@ namespace JSIStudios.SimpleRESTServices.Client
         public string RawBody { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Response"/> with the given HTTP status code,
+        /// Initializes a new instance of the <see cref="Response"/> class with the given HTTP status code,
         /// status, headers, and raw body.
         /// </summary>
         /// <param name="responseCode">The HTTP status code.</param>
@@ -52,7 +52,7 @@ namespace JSIStudios.SimpleRESTServices.Client
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Response"/> with the given HTTP status code,
+        /// Initializes a new instance of the <see cref="Response"/> class with the given HTTP status code,
         /// headers, and raw body.
         /// </summary>
         /// <param name="statusCode">The HTTP status code.</param>

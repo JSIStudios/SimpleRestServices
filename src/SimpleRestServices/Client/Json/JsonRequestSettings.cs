@@ -15,7 +15,7 @@
         public static readonly string JsonContentType = "application/json";
 
         /// <summary>
-        /// Initializes a new instance of <see cref="JsonRequestSettings"/> with the default value
+        /// Initializes a new instance of the <see cref="JsonRequestSettings"/> class with the default value
         /// <c>application/json</c> for <see cref="RequestSettings.ContentType"/> and <see cref="RequestSettings.Accept"/>.
         /// </summary>
         public JsonRequestSettings()
