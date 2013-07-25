@@ -18,7 +18,9 @@ namespace JSIStudios.SimpleRESTServices.Core
         /// <param name="logic">The user-defined operation to execute.</param>
         /// <param name="retryCount">The number of times to retry a failed operation. This parameter is optional. The default value is 1.</param>
         /// <param name="retryDelay">The delay between retry operations. This parameter is optional. If the value is <c>null</c>, the default is <see cref="TimeSpan.Zero"/> (no delay).</param>
-        /// <returns>Returns the result of a successful execution of <paramref name="logic"/>.</returns>
+        /// <returns>Returns the result of a successful execution of <paramref name="logic"/>. If
+        /// <paramref name="logic"/> failed and the maximum number of retries has been reached,
+        /// the method returns the last (unsuccessful) result returned by <paramref name="logic"/>.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="logic"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// If <paramref name="retryCount"/> is less than zero.
@@ -35,7 +37,9 @@ namespace JSIStudios.SimpleRESTServices.Core
         /// <param name="successValues">A collection of values which are generally considered failures, but should be treated as success values for this call.</param>
         /// <param name="retryCount">The number of times to retry a failed operation. This parameter is optional. The default value is 1.</param>
         /// <param name="retryDelay">The delay between retry operations. This parameter is optional. If the value is <c>null</c>, the default is <see cref="TimeSpan.Zero"/> (no delay).</param>
-        /// <returns>Returns the result of a successful execution of <paramref name="logic"/>.</returns>
+        /// <returns>Returns the result of a successful execution of <paramref name="logic"/>. If
+        /// <paramref name="logic"/> failed and the maximum number of retries has been reached,
+        /// the method returns the last (unsuccessful) result returned by <paramref name="logic"/>.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="logic"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// If <paramref name="retryCount"/> is less than zero.
