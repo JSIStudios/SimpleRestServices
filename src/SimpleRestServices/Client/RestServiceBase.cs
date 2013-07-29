@@ -253,7 +253,57 @@ namespace JSIStudios.SimpleRESTServices.Client
             return Stream(url, method, null, content, bufferSize, maxReadLength, headers, queryStringParameters, settings, progressUpdated);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Executes a REST request with a <see cref="System.IO.Stream"/> <paramref name="content"/>
+        /// and user-defined callback function for constructing the resulting <see cref="Response"/>
+        /// object.
+        /// </summary>
+        /// <param name="url">The base URI.</param>
+        /// <param name="method">The HTTP method to use for the request.</param>
+        /// <param name="responseBuilderCallback">A user-specified function used to construct the resulting <see cref="Response"/>
+        /// object from the <see cref="HttpWebResponse"/> and a Boolean value specifying whether or not a <see cref="WebException"/>
+        /// was thrown during the request. If this value is <c>null</c>, this method is equivalent to calling
+        /// <see cref="Stream(Uri, HttpMethod, Stream, int, long, Dictionary{string, string}, Dictionary{string, string}, RequestSettings, Action{long})"/>.</param>
+        /// <param name="content">A stream providing the body of the request.</param>
+        /// <param name="bufferSize">
+        /// The size of the buffer used for copying data from <paramref name="content"/> to the
+        /// HTTP request stream.
+        /// </param>
+        /// <param name="maxReadLength">
+        /// The maximum number of bytes to send with the request. This parameter is optional.
+        /// If the value is 0, the request will include all data from <paramref name="content"/>.
+        /// </param>
+        /// <param name="headers">
+        /// A collection of custom HTTP headers to include with the request. This parameter is
+        /// optional. If the value is <c>null</c>, no custom headers are added to the HTTP request.
+        /// </param>
+        /// <param name="queryStringParameters">
+        /// A collection of parameters to add to the query string portion of the request URI.
+        /// This parameter is optional. If the value is <c>null</c>, no parameters are added
+        /// to the query string.
+        /// </param>
+        /// <param name="settings">
+        /// The settings to use for the request. This parameters is optional. If the value is
+        /// <c>null</c>, an implementation-specific set of default settings will be used for the request.
+        /// </param>
+        /// <param name="progressUpdated">
+        /// A user-defined callback function for reporting progress of the send operation.
+        /// This parameter is optional. If the value is <c>null</c>, the method does not report
+        /// progress updates to the caller.
+        /// </param>
+        /// <returns>Returns a <see cref="Response"/> object containing the HTTP status code, headers,
+        /// and body from the REST response.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// If <paramref name="url"/> is <c>null</c>.
+        /// <para>-or-</para>
+        /// <para>If <paramref name="content"/> is <c>null</c>.</para>
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// If <paramref name="bufferSize"/> is less than or equal to zero.
+        /// <para>-or-</para>
+        /// <para>If <paramref name="maxReadLength"/> is less than zero.</para>
+        /// </exception>
+        /// <exception cref="NotSupportedException">If <paramref name="method"/> is not supported by the service.</exception>
         public virtual Response Stream(Uri url, HttpMethod method, Func<HttpWebResponse, bool, Response> responseBuilderCallback, Stream content, int bufferSize, long maxReadLength, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings, Action<long> progressUpdated)
         {
             if (url == null)
