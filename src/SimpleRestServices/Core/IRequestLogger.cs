@@ -19,7 +19,7 @@ namespace JSIStudios.SimpleRESTServices.Core
         /// <param name="response">The response.</param>
         /// <param name="requestStartTime">The request start time.</param>
         /// <param name="requestEndTime">The request end time.</param>
-        /// <param name="extendedData">The user-defined extended data specified in <see cref="RequestSettings.ExtendedLogginData"/>.</param>
+        /// <param name="extendedData">The user-defined extended data specified in <see cref="RequestSettings.ExtendedLoggingData"/>.</param>
         void Log(HttpMethod httpMethod, string uri, Dictionary<string, string> requestHeaders, string requestBody, Response response, DateTimeOffset requestStartTime, DateTimeOffset requestEndTime, Dictionary<string, string> extendedData);
     }
 }
