@@ -14,4 +14,7 @@
     <copyright>Copyright © JSI Studios 2013</copyright>
     <tags>REST REST_client</tags>
   </metadata>
+  <files>
+    <file src="..\Documentation\Api\SimpleRESTServices.xml" target="lib\net40"/>
+  </files>
 </package>
