@@ -54,7 +54,7 @@ namespace JSIStudios.SimpleRESTServices.Client
             do
             {
                 response = callback();
-                if (IsRequestSucessful(response, non200SuccessCodes))
+                if (IsRequestSuccessful(response, non200SuccessCodes))
                     return response;
 
                 retryCount = retryCount - 1;
@@ -75,7 +75,7 @@ namespace JSIStudios.SimpleRESTServices.Client
         /// below 300.</param>
         /// <returns><c>true</c> if <paramref name="response"/> is considered a successful HTTP
         /// response, otherwise <c>false</c>.</returns>
-        private static bool IsRequestSucessful(Response response, IEnumerable<HttpStatusCode> non200SuccessCodes)
+        private static bool IsRequestSuccessful(Response response, IEnumerable<HttpStatusCode> non200SuccessCodes)
         {
             if (response != null && response.StatusCode < (HttpStatusCode)300)
                 return true;

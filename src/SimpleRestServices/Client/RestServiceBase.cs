@@ -427,8 +427,8 @@ namespace JSIStudios.SimpleRESTServices.Client
                     if (!string.IsNullOrWhiteSpace(settings.UserAgent))
                         req.UserAgent = settings.UserAgent;
 
-                    if (settings.Credecials != null)
-                        req.Credentials = settings.Credecials;
+                    if (settings.Credentials != null)
+                        req.Credentials = settings.Credentials;
 
                     if (headers != null)
                     {
@@ -465,7 +465,7 @@ namespace JSIStudios.SimpleRESTServices.Client
 
                 // Log the request
                 if (_logger != null)
-                    _logger.Log(method, url.OriginalString, headers, requestBodyText, response, startTime, endTime, settings.ExtendedLogginData);
+                    _logger.Log(method, url.OriginalString, headers, requestBodyText, response, startTime, endTime, settings.ExtendedLoggingData);
 
                 if (response != null && settings.ResponseActions != null && settings.ResponseActions.ContainsKey(response.StatusCode))
                 {
