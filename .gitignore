@@ -32,6 +32,10 @@ obj/
 [Rr]elease*/
 Ankh.NoLoad
 
+# Documentation
+src/Documentation/Api/
+src/Documentation/Help/
+
 #Tooling
 _ReSharper*/
 *.resharper
