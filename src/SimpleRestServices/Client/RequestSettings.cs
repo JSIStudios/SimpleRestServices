@@ -91,7 +91,7 @@ namespace JSIStudios.SimpleRESTServices.Client
         /// <remarks>
         /// In the base implementation, the default value is <c>null</c>.
         /// </remarks>
-        public ICredentials Credecials { get; set; }
+        public ICredentials Credentials { get; set; }
 
         /// <summary>
         /// Gets or sets the request timeout.
@@ -119,7 +119,7 @@ namespace JSIStudios.SimpleRESTServices.Client
         /// <remarks>
         /// This value not used directly within SimpleRESTServices.
         /// </remarks>
-        public Dictionary<string, string> ExtendedLogginData { get; set; }
+        public Dictionary<string, string> ExtendedLoggingData { get; set; }
 
         /// <summary>
         /// Gets or sets the value of the Content-Length HTTP header.
