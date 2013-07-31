@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{F5B9B422-570A-4797-8F59-7A8C13A8934D}"
 EndProject
+Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "Documentation", "Documentation\Documentation.shfbproj", "{7AC93313-D825-4668-A188-B7C9F21DDB37}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SimpleRestServices.vsmdi
@@ -31,6 +33,9 @@ Global
 		{BB206928-0F2E-46A1-B438-D3ED9AF72BA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB206928-0F2E-46A1-B438-D3ED9AF72BA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB206928-0F2E-46A1-B438-D3ED9AF72BA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AC93313-D825-4668-A188-B7C9F21DDB37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AC93313-D825-4668-A188-B7C9F21DDB37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AC93313-D825-4668-A188-B7C9F21DDB37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
