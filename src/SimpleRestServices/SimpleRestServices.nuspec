@@ -1,17 +1,20 @@
 <?xml version="1.0"?>
-<package >
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>$id$</id>
     <version>$version$</version>
     <title>$title$</title>
-    <authors>alanquillin</authors>
+    <authors>Alan Quillin</authors>
     <owners>$author$</owners>
     <licenseUrl>https://github.com/JSIStudios/SimpleRestServices/wiki/License</licenseUrl>
     <projectUrl>https://github.com/JSIStudios/SimpleRestServices</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes>https://github.com/JSIStudios/SimpleRestServices/wiki/v$version$</releaseNotes>
-    <copyright>Copyright 2013</copyright>
+    <copyright>Copyright © JSI Studios 2013</copyright>
     <tags>REST REST_client</tags>
   </metadata>
+  <files>
+    <file src="..\Documentation\Api\SimpleRESTServices.xml" target="lib\net40"/>
+  </files>
 </package>
