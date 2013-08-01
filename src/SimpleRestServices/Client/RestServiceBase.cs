@@ -167,8 +167,6 @@ namespace JSIStudios.SimpleRESTServices.Client
         {
             if (url == null)
                 throw new ArgumentNullException("url");
-            if (responseBuilderCallback == null)
-                throw new ArgumentNullException("responseBuilderCallback");
 
             return ExecuteRequest(url, method, responseBuilderCallback, headers, queryStringParameters, settings, (req) =>
             {
