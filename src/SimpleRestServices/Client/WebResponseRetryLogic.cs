@@ -57,12 +57,11 @@ namespace JSIStudios.SimpleRESTServices.Client
                 if (IsRequestSuccessful(response, non200SuccessCodes))
                     return response;
 
-                retryCount = retryCount - 1;
-
-                if (retryDelay != null && retryCount > 0)
+                retryCount--;
+                if (retryCount >= 0)
                     Thread.Sleep(retryDelay ?? TimeSpan.Zero);
             }
-            while (retryCount >= 0);
+            while (retryCount > 0);
 
             return response;
         }
