@@ -476,6 +476,12 @@ namespace JSIStudios.SimpleRESTServices.Client
             }, settings.Non200SuccessCodes, settings.RetryCount, settings.RetryDelay);
         }
 
+        /// <summary>
+        /// Build a <see cref="Response"/> for a given <see cref="HttpWebResponse"/>.
+        /// </summary>
+        /// <param name="resp">The response from the REST request.</param>
+        /// <returns>A <see cref="Response"/> object representing the result of the REST API call.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="resp"/> is <c>null</c>.</exception>
         private Response BuildWebResponse(HttpWebResponse resp)
         {
             if (resp == null)
@@ -541,16 +547,25 @@ namespace JSIStudios.SimpleRESTServices.Client
             }
         }
 
+        /// <summary>
+        /// Builds a <see cref="Response{T}"/> for a given <see cref="HttpWebResponse"/>
+        /// containing a serialized representation of strongly-typed data in the body of
+        /// the response.
+        /// </summary>
+        /// <typeparam name="T">The object model type for the data contained in the body of <paramref name="resp"/>.</typeparam>
+        /// <param name="resp">The response from the REST request.</param>
+        /// <returns>A <see cref="Response{T}"/> instance representing the response from the REST API call.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="resp"/> is <c>null</c>.</exception>
+        /// <exception cref="StringSerializationException">
+        /// If the body of <paramref name="response"/> could not be deserialized to an object of type <typeparamref name="T"/>.
+        /// </exception>
         private Response<T> BuildWebResponse<T>(HttpWebResponse resp)
         {
             var baseReponse = BuildWebResponse(resp);
             T data = default(T);
-            try
-            {
-                if (baseReponse != null && !string.IsNullOrWhiteSpace(baseReponse.RawBody))
-                    data = _stringSerializer.Deserialize<T>(baseReponse.RawBody);
-            }
-            catch (StringSerializationException) { }
+            if (baseReponse != null && !string.IsNullOrWhiteSpace(baseReponse.RawBody))
+                data = _stringSerializer.Deserialize<T>(baseReponse.RawBody);
+
             return new Response<T>(baseReponse, data);
         }
     }
