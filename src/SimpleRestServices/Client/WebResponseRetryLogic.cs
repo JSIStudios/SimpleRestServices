@@ -28,7 +28,7 @@ namespace JSIStudios.SimpleRESTServices.Client
     public class RequestRetryLogic : IRetryLogic<Response, HttpStatusCode>
     {
         /// <inheritdoc/>
-        public Response Execute(Func<Response> callback, int retryCount = 1, TimeSpan? retryDelay = null)
+        public Response Execute(Func<Response> callback, int retryCount = 0, TimeSpan? retryDelay = null)
         {
             if (callback == null)
                 throw new ArgumentNullException("callback");
@@ -41,7 +41,7 @@ namespace JSIStudios.SimpleRESTServices.Client
         }
 
         /// <inheritdoc/>
-        public Response Execute(Func<Response> callback, IEnumerable<HttpStatusCode> non200SuccessCodes, int retryCount = 1, TimeSpan? retryDelay = null)
+        public Response Execute(Func<Response> callback, IEnumerable<HttpStatusCode> non200SuccessCodes, int retryCount = 0, TimeSpan? retryDelay = null)
         {
             if (callback == null)
                 throw new ArgumentNullException("callback");
