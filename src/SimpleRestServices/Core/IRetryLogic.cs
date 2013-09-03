@@ -27,7 +27,7 @@ namespace JSIStudios.SimpleRESTServices.Core
         /// <para>-or-</para>
         /// <para>If <paramref name="retryDelay"/> is less than <see cref="TimeSpan.Zero"/>.</para>
         /// </exception>
-        T Execute(Func<T> logic, int retryCount = 1, TimeSpan? retryDelay = null);
+        T Execute(Func<T> logic, int retryCount = 0, TimeSpan? retryDelay = null);
 
         /// <summary>
         /// Executes a user-defined operation with the specified "success" values, number of
@@ -46,6 +46,6 @@ namespace JSIStudios.SimpleRESTServices.Core
         /// <para>-or-</para>
         /// <para>If <paramref name="retryDelay"/> is less than <see cref="TimeSpan.Zero"/>.</para>
         /// </exception>
-        T Execute(Func<T> logic, IEnumerable<T2> successValues, int retryCount = 1, TimeSpan? retryDelay = null);
+        T Execute(Func<T> logic, IEnumerable<T2> successValues, int retryCount = 0, TimeSpan? retryDelay = null);
     }
 }
