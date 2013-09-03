@@ -39,6 +39,9 @@ namespace JSIStudios.SimpleRESTServices.Client
         /// <exception cref="ArgumentNullException">If <paramref name="url"/> is <c>null</c>.</exception>
         /// <exception cref="UriFormatException">If <paramref name="url"/> is not a valid base URI.</exception>
         /// <exception cref="NotSupportedException">If <paramref name="method"/> is not supported by the service.</exception>
+        /// <exception cref="StringSerializationException">
+        /// If the body of the response could not be deserialized to an object of type <typeparamref name="T"/>.
+        /// </exception>
         Response<T> Execute<T, TBody>(
             String url,
             HttpMethod method,
@@ -75,6 +78,9 @@ namespace JSIStudios.SimpleRESTServices.Client
         /// and strongly-typed data from the REST response.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="url"/> is <c>null</c>.</exception>
         /// <exception cref="NotSupportedException">If <paramref name="method"/> is not supported by the service.</exception>
+        /// <exception cref="StringSerializationException">
+        /// If the body of the response could not be deserialized to an object of type <typeparamref name="T"/>.
+        /// </exception>
         Response<T> Execute<T, TBody>(
             Uri url,
             HttpMethod method,
@@ -111,6 +117,9 @@ namespace JSIStudios.SimpleRESTServices.Client
         /// <exception cref="ArgumentNullException">If <paramref name="url"/> is <c>null</c>.</exception>
         /// <exception cref="UriFormatException">If <paramref name="url"/> is not a valid base URI.</exception>
         /// <exception cref="NotSupportedException">If <paramref name="method"/> is not supported by the service.</exception>
+        /// <exception cref="StringSerializationException">
+        /// If the body of the response could not be deserialized to an object of type <typeparamref name="T"/>.
+        /// </exception>
         Response<T> Execute<T>(
             String url,
             HttpMethod method,
@@ -146,6 +155,9 @@ namespace JSIStudios.SimpleRESTServices.Client
         /// and strongly-typed data from the REST response.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="url"/> is <c>null</c>.</exception>
         /// <exception cref="NotSupportedException">If <paramref name="method"/> is not supported by the service.</exception>
+        /// <exception cref="StringSerializationException">
+        /// If the body of the response could not be deserialized to an object of type <typeparamref name="T"/>.
+        /// </exception>
         Response<T> Execute<T>(
             Uri url,
             HttpMethod method,
@@ -340,6 +352,9 @@ namespace JSIStudios.SimpleRESTServices.Client
         /// <para>If <paramref name="maxReadLength"/> is less than zero.</para>
         /// </exception>
         /// <exception cref="NotSupportedException">If <paramref name="method"/> is not supported by the service.</exception>
+        /// <exception cref="StringSerializationException">
+        /// If the body of the response could not be deserialized to an object of type <typeparamref name="T"/>.
+        /// </exception>
         Response<T> Stream<T>(
             Uri url,
             HttpMethod method,
@@ -454,6 +469,9 @@ namespace JSIStudios.SimpleRESTServices.Client
         /// </exception>
         /// <exception cref="UriFormatException">If <paramref name="url"/> is not a valid base URI.</exception>
         /// <exception cref="NotSupportedException">If <paramref name="method"/> is not supported by the service.</exception>
+        /// <exception cref="StringSerializationException">
+        /// If the body of the response could not be deserialized to an object of type <typeparamref name="T"/>.
+        /// </exception>
         Response<T> Stream<T>(
             string url,
             HttpMethod method,
