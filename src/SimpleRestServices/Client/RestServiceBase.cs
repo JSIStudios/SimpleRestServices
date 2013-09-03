@@ -329,11 +329,8 @@ namespace JSIStudios.SimpleRESTServices.Client
                 {
                     var buffer = new byte[bufferSize];
                     int count;
-                    while ((count = content.Read(buffer, 0, bufferSize)) > 0)
+                    while ((count = content.Read(buffer, 0, maxReadLength > 0 ? (int)Math.Min(bufferSize, maxReadLength - bytesWritten) : bufferSize)) > 0)
                     {
-                        if (maxReadLength > 0 && bytesWritten + count > maxReadLength)
-                            count = (int) maxReadLength - (int) bytesWritten;
-
                         bytesWritten += count;
                         stream.Write(buffer, 0, count);
 
