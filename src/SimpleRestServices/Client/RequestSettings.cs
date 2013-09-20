@@ -148,6 +148,17 @@ namespace JSIStudios.SimpleRESTServices.Client
         public bool AllowZeroContentLength { get; set; }
 
         /// <summary>
+        /// Gets or sets the maximum number of connections allowed on the <see cref="ServicePoint"/> object
+        /// used for the request. If the value is <c>null</c>, the connection limit value for the
+        /// <see cref="ServicePoint"/> object is not altered.
+        /// </summary>
+        public int? ConnectionLimit
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="RequestSettings"/> class with the default values.
         /// </summary>
         public RequestSettings()

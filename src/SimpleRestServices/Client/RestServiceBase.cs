@@ -417,6 +417,9 @@ namespace JSIStudios.SimpleRESTServices.Client
                     if(settings.ContentLength > 0 || settings.AllowZeroContentLength)
                         req.ContentLength = settings.ContentLength;
 
+                    if (settings.ConnectionLimit != null)
+                        req.ServicePoint.ConnectionLimit = settings.ConnectionLimit.Value;
+
                     req.Timeout = (int)settings.Timeout.TotalMilliseconds;
 
                     if (!string.IsNullOrWhiteSpace(settings.UserAgent))
