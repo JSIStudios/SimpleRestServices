@@ -56,17 +56,5 @@ namespace JSIStudios.SimpleRESTServices.Client.Json
                 return new JsonRequestSettings();
             }
         }
-
-        /// <inheritdoc/>
-        public override Response Execute(Uri url, HttpMethod method, Func<HttpWebResponse, bool, Response> responseBuilderCallback, string body, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings)
-        {
-            return base.Execute(url, method, responseBuilderCallback, body, headers, queryStringParameters, settings);
-        }
-
-        /// <inheritdoc/>
-        public override Response Stream(Uri url, HttpMethod method, Func<HttpWebResponse, bool, Response> responseBuilderCallback, Stream contents, int bufferSize, long maxReadLength, Dictionary<string, string> headers, Dictionary<string, string> queryStringParameters, RequestSettings settings, Action<long> progressUpdated)
-        {
-            return base.Stream(url, method, responseBuilderCallback, contents, bufferSize, maxReadLength, headers, queryStringParameters, settings, progressUpdated);
-        }
     }
 }
