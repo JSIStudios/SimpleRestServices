@@ -9,7 +9,11 @@ namespace JSIStudios.SimpleRESTServices.Core
     /// </summary>
     /// <typeparam name="T">The operation return type</typeparam>
     /// <typeparam name="T2">The type of the value used to represent the operation's success or failure</typeparam>
+#if NET35
+    public interface IRetryLogic<T, T2>
+#else
     public interface IRetryLogic<T, in T2>
+#endif
     {
         /// <summary>
         /// Executes a user-defined operation with the specified number of retry attempts
