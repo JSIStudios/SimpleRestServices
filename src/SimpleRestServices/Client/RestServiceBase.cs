@@ -561,7 +561,7 @@ namespace JSIStudios.SimpleRESTServices.Client
         /// <returns>A <see cref="Response{T}"/> instance representing the response from the REST API call.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="resp"/> is <c>null</c>.</exception>
         /// <exception cref="StringSerializationException">
-        /// If the body of <paramref name="response"/> could not be deserialized to an object of type <typeparamref name="T"/>.
+        /// If the body of <paramref name="resp"/> could not be deserialized to an object of type <typeparamref name="T"/>.
         /// </exception>
         private Response<T> BuildWebResponse<T>(HttpWebResponse resp)
         {
