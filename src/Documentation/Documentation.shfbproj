@@ -20,7 +20,7 @@
     <HtmlHelpName>SimpleRESTServices</HtmlHelpName>
     <Language>en-US</Language>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\SimpleRestServices\SimpleRestServices.csproj" xmlns="" />
+      <DocumentationSource sourceFile="..\SimpleRestServices\SimpleRestServices.v4.0.csproj" xmlns="" />
     </DocumentationSources>
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
     <HelpFileFormat>HtmlHelp1, Website</HelpFileFormat>
@@ -72,8 +72,8 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Win32' ">
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SimpleRestServices\SimpleRestServices.csproj">
-      <Name>SimpleRestServices</Name>
+    <ProjectReference Include="..\SimpleRestServices\SimpleRestServices.v4.0.csproj">
+      <Name>SimpleRestServices.v4.0</Name>
       <Project>{4a44eb7c-06d5-43f0-b660-f684cbaac99f}</Project>
       <Private>True</Private>
     </ProjectReference>
