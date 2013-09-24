@@ -34,7 +34,7 @@ namespace JSIStudios.SimpleRESTServices.Server
 
         public string Clean(string source)
         {
-            if (string.IsNullOrWhiteSpace(source))
+            if (string.IsNullOrEmpty(source))
             {
                 return null;
             }

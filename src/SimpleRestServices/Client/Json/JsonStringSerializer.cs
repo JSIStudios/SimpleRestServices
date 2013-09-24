@@ -12,7 +12,7 @@ namespace JSIStudios.SimpleRESTServices.Client.Json
         /// <inheritdoc />
         public T Deserialize<T>(string content)
         {
-            if (string.IsNullOrWhiteSpace(content))
+            if (string.IsNullOrEmpty(content))
                 return default(T);
 
             try
