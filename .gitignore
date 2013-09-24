@@ -4,7 +4,6 @@
 
 #Visual Studio files
 *.[Oo]bj
-*.user
 *.aps
 *.pch
 *.vspscc
@@ -31,6 +30,10 @@ obj/
 [Dd]ebug*/
 [Rr]elease*/
 Ankh.NoLoad
+
+# Per-user project files
+*.user
+*.shfbproj_*
 
 # Documentation
 src/Documentation/Api/
