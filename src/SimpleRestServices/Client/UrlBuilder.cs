@@ -48,7 +48,7 @@ namespace JSIStudios.SimpleRESTServices.Client
                         param =>
                         string.Format("{0}={1}", System.Web.HttpUtility.UrlEncode(param.Key),
                                       System.Web.HttpUtility.UrlEncode(param.Value)));
-                var paramsCombined = string.Join("&", paramsCombinedList);
+                var paramsCombined = string.Join("&", paramsCombinedList.ToArray());
 
                 var separator = baseAbsoluteUrl.Contains("?") ? "&" : "?";
                 return baseAbsoluteUrl + separator + paramsCombined;

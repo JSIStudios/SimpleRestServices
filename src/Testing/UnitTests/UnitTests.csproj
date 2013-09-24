@@ -57,9 +57,9 @@
     <Folder Include="Server\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SimpleRestServices\SimpleRestServices.csproj">
+    <ProjectReference Include="..\..\SimpleRestServices\SimpleRestServices.v4.0.csproj">
       <Project>{4A44EB7C-06D5-43F0-B660-F684CBAAC99F}</Project>
-      <Name>SimpleRestServices</Name>
+      <Name>SimpleRestServices.v4.0</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

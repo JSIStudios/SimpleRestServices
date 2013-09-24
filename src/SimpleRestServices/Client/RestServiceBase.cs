@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using JSIStudios.SimpleRESTServices.Client.Json;
 using JSIStudios.SimpleRESTServices.Core;
+#if !NET35
+using System.Diagnostics.Contracts;
+#endif
 
 namespace JSIStudios.SimpleRESTServices.Client
 {
@@ -171,7 +173,7 @@ namespace JSIStudios.SimpleRESTServices.Client
             return ExecuteRequest(url, method, responseBuilderCallback, headers, queryStringParameters, settings, (req) =>
             {
                 // Encode the parameters as form data:
-                if (!string.IsNullOrWhiteSpace(body))
+                if (!string.IsNullOrEmpty(body))
                 {
                     byte[] formData = UTF8Encoding.UTF8.GetBytes(body);
                     req.ContentLength = formData.Length;
@@ -422,7 +424,7 @@ namespace JSIStudios.SimpleRESTServices.Client
 
                     req.Timeout = (int)settings.Timeout.TotalMilliseconds;
 
-                    if (!string.IsNullOrWhiteSpace(settings.UserAgent))
+                    if (!string.IsNullOrEmpty(settings.UserAgent))
                         req.UserAgent = settings.UserAgent;
 
                     if (settings.Credentials != null)
@@ -517,8 +519,10 @@ namespace JSIStudios.SimpleRESTServices.Client
         {
             if (response == null)
                 throw new ArgumentNullException("response");
+#if !NET35
             Contract.Ensures(Contract.Result<Encoding>() != null);
             Contract.EndContractBlock();
+#endif
 
             string contentEncoding = response.ContentEncoding;
             if (!string.IsNullOrEmpty(contentEncoding))
@@ -557,13 +561,13 @@ namespace JSIStudios.SimpleRESTServices.Client
         /// <returns>A <see cref="Response{T}"/> instance representing the response from the REST API call.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="resp"/> is <c>null</c>.</exception>
         /// <exception cref="StringSerializationException">
-        /// If the body of <paramref name="response"/> could not be deserialized to an object of type <typeparamref name="T"/>.
+        /// If the body of <paramref name="resp"/> could not be deserialized to an object of type <typeparamref name="T"/>.
         /// </exception>
         private Response<T> BuildWebResponse<T>(HttpWebResponse resp)
         {
             var baseReponse = BuildWebResponse(resp);
             T data = default(T);
-            if (baseReponse != null && !string.IsNullOrWhiteSpace(baseReponse.RawBody))
+            if (baseReponse != null && !string.IsNullOrEmpty(baseReponse.RawBody))
                 data = _stringSerializer.Deserialize<T>(baseReponse.RawBody);
 
             return new Response<T>(baseReponse, data);
