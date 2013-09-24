@@ -7,7 +7,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>7ac93313-d825-4668-a188-b7c9f21ddb37</ProjectGuid>
+    <ProjectGuid>93356b99-d84c-4291-b739-ef8ec6a9b382</ProjectGuid>
     <SHFBSchemaVersion>1.9.5.0</SHFBSchemaVersion>
     <!-- AssemblyName, Name, and RootNamespace are not used by SHFB but Visual
          Studio adds them anyway -->
@@ -15,12 +15,12 @@
     <RootNamespace>Documentation</RootNamespace>
     <Name>Documentation</Name>
     <!-- SHFB properties -->
-    <FrameworkVersion>.NET Framework 4.0</FrameworkVersion>
-    <OutputPath>.\Help\</OutputPath>
+    <FrameworkVersion>.NET Framework 3.5</FrameworkVersion>
+    <OutputPath>.\Help\v3.5\</OutputPath>
     <HtmlHelpName>SimpleRESTServices</HtmlHelpName>
     <Language>en-US</Language>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\SimpleRestServices\SimpleRestServices.v4.0.csproj" xmlns="" />
+      <DocumentationSource sourceFile="..\SimpleRestServices\SimpleRestServices.v3.5.csproj" xmlns="" />
     </DocumentationSources>
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
     <HelpFileFormat>HtmlHelp1, Website</HelpFileFormat>
@@ -47,7 +47,7 @@
     <ComponentConfigurations>
       <ComponentConfig id="IntelliSense Component" enabled="True">
         <component id="IntelliSense Component" type="Microsoft.Ddue.Tools.IntelliSenseComponent" assembly="{@SandcastlePath}ProductionTools\BuildComponents.dll">
-          <output includeNamespaces="false" namespacesFile="Namespaces" folder="{@OutputFolder}\..\Api" />
+          <output includeNamespaces="false" namespacesFile="Namespaces" folder="{@OutputFolder}\..\..\Api\v3.5" />
         </component>
       </ComponentConfig>
     </ComponentConfigurations>
@@ -72,9 +72,9 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Win32' ">
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SimpleRestServices\SimpleRestServices.v4.0.csproj">
-      <Name>SimpleRestServices.v4.0</Name>
-      <Project>{4a44eb7c-06d5-43f0-b660-f684cbaac99f}</Project>
+    <ProjectReference Include="..\SimpleRestServices\SimpleRestServices.v3.5.csproj">
+      <Name>SimpleRestServices.v3.5</Name>
+      <Project>{1960d862-8ad9-48be-9290-b7e23ea03d5c}</Project>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
