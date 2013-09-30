@@ -120,7 +120,7 @@ namespace JSIStudios.SimpleRESTServices.Client
             if (url == null)
                 throw new ArgumentNullException("url");
 
-            return Execute(url, method, (resp, isError) => BuildWebResponse<T>(resp), body, headers, queryStringParameters, settings) as Response<T>;
+            return Execute(url, method, BuildWebResponse<T>, body, headers, queryStringParameters, settings) as Response<T>;
         }
 
         /// <inheritdoc/>
@@ -235,7 +235,7 @@ namespace JSIStudios.SimpleRESTServices.Client
             if (maxReadLength < 0)
                 throw new ArgumentOutOfRangeException("maxReadLength");
 
-            return Stream(url, method, (resp, isError) => BuildWebResponse<T>(resp), content, bufferSize, maxReadLength, headers, queryStringParameters, settings, progressUpdated) as Response<T>;
+            return Stream(url, method, BuildWebResponse<T>, content, bufferSize, maxReadLength, headers, queryStringParameters, settings, progressUpdated) as Response<T>;
         }
 
         /// <inheritdoc/>
@@ -558,17 +558,23 @@ namespace JSIStudios.SimpleRESTServices.Client
         /// </summary>
         /// <typeparam name="T">The object model type for the data contained in the body of <paramref name="resp"/>.</typeparam>
         /// <param name="resp">The response from the REST request.</param>
+        /// <param name="isError">Indicates whether the response is an error response. If the value is <c>true</c> the response 
+        /// will not be deserialized to <typeparamref name="T"/></param>
         /// <returns>A <see cref="Response{T}"/> instance representing the response from the REST API call.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="resp"/> is <c>null</c>.</exception>
         /// <exception cref="StringSerializationException">
         /// If the body of <paramref name="resp"/> could not be deserialized to an object of type <typeparamref name="T"/>.
         /// </exception>
-        private Response<T> BuildWebResponse<T>(HttpWebResponse resp)
+        private Response<T> BuildWebResponse<T>(HttpWebResponse resp, bool isError = false)
         {
             var baseReponse = BuildWebResponse(resp);
             T data = default(T);
-            if (baseReponse != null && !string.IsNullOrEmpty(baseReponse.RawBody))
-                data = _stringSerializer.Deserialize<T>(baseReponse.RawBody);
+
+            if (!isError)
+            {
+                if (baseReponse != null && !string.IsNullOrEmpty(baseReponse.RawBody))
+                    data = _stringSerializer.Deserialize<T>(baseReponse.RawBody);
+            }
 
             return new Response<T>(baseReponse, data);
         }
