@@ -362,8 +362,7 @@ namespace JSIStudios.SimpleRESTServices.Client
         ///
         /// <para>The Boolean argument to <paramref name="responseBuilderCallback"/> indicates whether
         /// or not an exception was thrown while executing the request. The value is <c>true</c>
-        /// if an exception occurred, otherwise <c>false</c>.  When the value is <c>true</c>, the body of the
-        /// response will not be deserialized.</para>
+        /// if an exception occurred, otherwise <c>false</c>.</para>
         /// </remarks>
         /// <param name="url">The base URI.</param>
         /// <param name="method">The HTTP method to use for the request.</param>
