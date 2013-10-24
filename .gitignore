@@ -30,6 +30,7 @@ obj/
 [Dd]ebug*/
 [Rr]elease*/
 Ankh.NoLoad
+*.DotSettings
 
 # Per-user project files
 *.user
