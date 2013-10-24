@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/JSIStudios/SimpleRestServices</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>A simple set of client side and server side REST helpers</description>
-    <releaseNotes>https://github.com/JSIStudios/SimpleRestServices/wiki/v$version$</releaseNotes>
+    <releaseNotes>https://github.com/JSIStudios/SimpleRestServices/releases/tag/v$version$</releaseNotes>
     <copyright>Copyright © JSI Studios 2013</copyright>
     <tags>REST REST_client</tags>
     <dependencies>
