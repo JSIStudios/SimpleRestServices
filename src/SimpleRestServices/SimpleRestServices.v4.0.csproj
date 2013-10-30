@@ -34,10 +34,13 @@
     <DocumentationFile>bin\v4.0\Release\SimpleRESTServices.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\..\..\Certificates\SimpleRESTServices.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>SimpleRESTServicesPK.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>true</DelaySign>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -90,8 +93,15 @@
     <None Include="packages.config" />
     <None Include="..\..\..\Certificates\SimpleRESTServices.pfx" />
     <None Include="SimpleRestServices.nuspec" />
+    <None Include="SimpleRESTServicesKP.snk" />
+    <None Include="SimpleRESTServicesPK.snk" />
+    <None Include="testKeyPair.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
