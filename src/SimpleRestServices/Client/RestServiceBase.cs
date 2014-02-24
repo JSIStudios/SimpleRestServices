@@ -9,6 +9,9 @@ using JSIStudios.SimpleRESTServices.Core;
 #if !NET35
 using System.Diagnostics.Contracts;
 #endif
+#if PORTABLE
+using System.Threading.Tasks;
+#endif
 
 namespace JSIStudios.SimpleRESTServices.Client
 {
@@ -176,6 +179,7 @@ namespace JSIStudios.SimpleRESTServices.Client
                 if (!string.IsNullOrEmpty(body))
                 {
                     byte[] formData = UTF8Encoding.UTF8.GetBytes(body);
+#if !PORTABLE
                     req.ContentLength = formData.Length;
 
                     // Send the request:
@@ -183,6 +187,12 @@ namespace JSIStudios.SimpleRESTServices.Client
                     {
                         post.Write(formData, 0, formData.Length);
                     }
+#else
+                    using (Stream post = Task.Factory.FromAsync<Stream>(req.BeginGetRequestStream(null, null), req.EndGetRequestStream).Result)
+                    {
+                        post.Write(formData, 0, formData.Length);
+                    }
+#endif
                 }
 
                 return body;
@@ -321,13 +331,21 @@ namespace JSIStudios.SimpleRESTServices.Client
 
                 if (settings.ChunkRequest || maxReadLength > 0 )
                 {
+#if !PORTABLE
                     req.SendChunked = settings.ChunkRequest;
                     req.AllowWriteStreamBuffering = false;
 
                     req.ContentLength = content.Length > maxReadLength ? maxReadLength : content.Length;
+#else
+                    throw new NotSupportedException("This platform does not support chunked HTTP requests.");
+#endif
                 }
 
+#if !PORTABLE
                 using (Stream stream = req.GetRequestStream())
+#else
+                using (Stream stream = Task.Factory.FromAsync<Stream>(req.BeginGetRequestStream(null, null), req.EndGetRequestStream).Result)
+#endif
                 {
                     var buffer = new byte[bufferSize];
                     int count;
@@ -416,16 +434,24 @@ namespace JSIStudios.SimpleRESTServices.Client
                     req.Method = method.ToString();
                     req.ContentType = settings.ContentType;
                     req.Accept = settings.Accept;
+#if !PORTABLE
                     if(settings.ContentLength > 0 || settings.AllowZeroContentLength)
                         req.ContentLength = settings.ContentLength;
+#endif
 
+#if !PORTABLE
                     if (settings.ConnectionLimit != null)
                         req.ServicePoint.ConnectionLimit = settings.ConnectionLimit.Value;
+#endif
 
+#if !PORTABLE
                     req.Timeout = (int)settings.Timeout.TotalMilliseconds;
+#endif
 
+#if !PORTABLE
                     if (!string.IsNullOrEmpty(settings.UserAgent))
                         req.UserAgent = settings.UserAgent;
+#endif
 
                     if (settings.Credentials != null)
                         req.Credentials = settings.Credentials;
@@ -434,13 +460,21 @@ namespace JSIStudios.SimpleRESTServices.Client
                     {
                         foreach (var header in headers)
                         {
+#if !PORTABLE
                             req.Headers.Add(header.Key, header.Value);
+#else
+                            req.Headers[header.Key] = header.Value;
+#endif
                         }
                     }
 
                     requestBodyText = executeCallback(req);
 
+#if !PORTABLE
                     using (var resp = req.GetResponse() as HttpWebResponse)
+#else
+                    using (var resp = Task.Factory.FromAsync<WebResponse>(req.BeginGetResponse(null, null), req.EndGetResponse).Result as HttpWebResponse)
+#endif
                     {
                         if (responseBuilderCallback != null)
                             response = responseBuilderCallback(resp, false);
@@ -495,9 +529,15 @@ namespace JSIStudios.SimpleRESTServices.Client
                 respBody = reader.ReadToEnd();
             }
 
+#if !PORTABLE
             var respHeaders =
                 resp.Headers.AllKeys.Select(key => new HttpHeader(key, resp.GetResponseHeader(key)))
                 .ToList();
+#else
+            var respHeaders =
+                resp.Headers.AllKeys.Select(key => new HttpHeader(key, resp.Headers[key]))
+                .ToList();
+#endif
             return new Response(resp.StatusCode, respHeaders, respBody);
         }
 
@@ -524,6 +564,7 @@ namespace JSIStudios.SimpleRESTServices.Client
             Contract.EndContractBlock();
 #endif
 
+#if !PORTABLE
             string contentEncoding = response.ContentEncoding;
             if (!string.IsNullOrEmpty(contentEncoding))
             {
@@ -536,7 +577,9 @@ namespace JSIStudios.SimpleRESTServices.Client
                     // continue below
                 }
             }
+#endif
 
+#if !PORTABLE
             string characterSet = response.CharacterSet;
             if (string.IsNullOrEmpty(characterSet))
                 return Encoding.Default;
@@ -547,8 +590,15 @@ namespace JSIStudios.SimpleRESTServices.Client
             }
             catch (ArgumentException)
             {
-                return Encoding.Default;
+                // continue below
             }
+#endif
+
+#if !PORTABLE
+            return Encoding.Default;
+#else
+            return Encoding.UTF8;
+#endif
         }
 
         /// <summary>

@@ -9,7 +9,9 @@ namespace JSIStudios.SimpleRESTServices.Client
     /// from the response.
     /// </summary>
     /// <typeparam name="T">The type of the data included with the response.</typeparam>
+#if !PORTABLE
     [Serializable]
+#endif
     public class Response<T> : Response
     {
         /// <summary>

@@ -43,11 +43,19 @@ namespace JSIStudios.SimpleRESTServices.Client
 
             if (queryStringParameters != null && queryStringParameters.Count > 0)
             {
+#if !PORTABLE
                 var paramsCombinedList =
                     queryStringParameters.Select(
                         param =>
                         string.Format("{0}={1}", System.Web.HttpUtility.UrlEncode(param.Key),
                                       System.Web.HttpUtility.UrlEncode(param.Value)));
+#else
+                var paramsCombinedList =
+                    queryStringParameters.Select(
+                        param =>
+                        string.Format("{0}={1}", Uri.EscapeUriString(param.Key),
+                                      Uri.EscapeUriString(param.Value)));
+#endif
                 var paramsCombined = string.Join("&", paramsCombinedList.ToArray());
 
                 var separator = baseAbsoluteUrl.Contains("?") ? "&" : "?";

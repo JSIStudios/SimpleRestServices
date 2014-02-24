@@ -28,6 +28,10 @@
     <file src="bin\v4.0\$Configuration$\SimpleRESTServices.pdb" target="lib\net40"/>
     <file src="..\Documentation\Api\v4.0\SimpleRESTServices.xml" target="lib\net40"/>
 
+    <file src="bin\portable-net40\$Configuration$\SimpleRESTServices.dll" target="lib\portable-net40"/>
+    <file src="bin\portable-net40\$Configuration$\SimpleRESTServices.pdb" target="lib\portable-net40"/>
+    <file src="..\Documentation\Api\portable-net40\SimpleRESTServices.xml" target="lib\portable-net40"/>
+
     <!-- Source code -->
     <file src="**\*.cs" target="src" />
 
