@@ -90,7 +90,7 @@
     <None Include="..\..\..\keys\simplerestservices.snk">
       <Link>simplerestservices.snk</Link>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.SimpleRestServices.v4.0.config" />
     <None Include="SimpleRestServices.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
