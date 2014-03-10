@@ -8,7 +8,9 @@ namespace JSIStudios.SimpleRESTServices.Client
     /// Represents the basic response of an HTTP REST request, where the body of the response
     /// is stored as a text string.
     /// </summary>
+#if !PORTABLE
     [Serializable]
+#endif
     public class Response
     {
         /// <summary>

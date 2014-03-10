@@ -59,7 +59,16 @@ namespace JSIStudios.SimpleRESTServices.Client
 
                 retryCount--;
                 if (retryCount >= 0)
+                {
+#if !PORTABLE
                     Thread.Sleep(retryDelay ?? TimeSpan.Zero);
+#else
+                    using (ManualResetEvent ev = new ManualResetEvent(false))
+                    {
+                        ev.WaitOne(retryDelay ?? TimeSpan.Zero);
+                    }
+#endif
+                }
             }
             while (retryCount > 0);
 

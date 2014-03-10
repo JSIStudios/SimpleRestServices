@@ -6,7 +6,9 @@ namespace JSIStudios.SimpleRESTServices.Client
     /// <summary>
     /// Represents a single header included with an HTTP response.
     /// </summary>
+#if !PORTABLE
     [Serializable]
+#endif
     [DebuggerDisplay("{Key,nq} = {Value,nq}")]
     public class HttpHeader
     {
