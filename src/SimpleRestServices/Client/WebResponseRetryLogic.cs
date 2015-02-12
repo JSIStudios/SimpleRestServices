@@ -61,7 +61,7 @@ namespace JSIStudios.SimpleRESTServices.Client
                 if (retryCount >= 0)
                     Thread.Sleep(retryDelay ?? TimeSpan.Zero);
             }
-            while (retryCount > 0);
+            while (retryCount >= 0);
 
             return response;
         }
