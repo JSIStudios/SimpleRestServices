@@ -32,6 +32,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A57581
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{377DB120-46E3-4D5C-956B-A05F9987BF6F}"
+	ProjectSection(SolutionItems) = preProject
+		..\build\build.ps1 = ..\build\build.ps1
+		..\build\check-key.ps1 = ..\build\check-key.ps1
+		..\build\keys.ps1 = ..\build\keys.ps1
+		..\build\push.ps1 = ..\build\push.ps1
+		..\build\version.ps1 = ..\build\version.ps1
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SimpleRestServices.vsmdi
