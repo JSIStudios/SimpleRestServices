@@ -1,68 +1,24 @@
-#OS junk files
-[Tt]humbs.db
-*.DS_Store
-
-#Visual Studio files
-*.[Oo]bj
-*.aps
-*.pch
-*.vspscc
-*.vssscc
-*_i.c
-*_p.c
-*.ncb
-*.suo
-*.tlb
-*.tlh
-*.bak
-*.[Cc]ache
-*.ilk
-*.log
-*.lib
-*.sbr
-*.sdf
-*.opensdf
-*.unsuccessfulbuild
-ipch/
+# Build output
+bin/
 obj/
-[Bb]in
-[Oo]bj
-[Dd]ebug*/
-[Rr]elease*/
-Ankh.NoLoad
-*.DotSettings
+/build/nuget/
+/src/Documentation/Api/
+/src/Documentation/Help/
 
-# Per-user project files
+# Per-user files created by Visual Studio
+*.suo
 *.user
 *.shfbproj_*
+.vs/
 
-# Documentation
-src/Documentation/Api/
-src/Documentation/Help/
-
-#Tooling
+# Per-user files created by optional Visual Studio extensions
+*.DotSettings
+StyleCop.Cache
 _ReSharper*/
 *.resharper
-[Tt]est[Rr]esult*
 
-#Project files
-[Bb]uild/
+# MSTest Test Results
+TestResult*/
 
-#Subversion files
-.svn/
-
-# Office Temp Files
-~$*
-
-#Git
-*.orig
-
-#SQL Source Control
-CommandLineHooks.xml
-
-#MSTest Test Results
-TestResults
-
-#NuGet
-*.nupkg
+# NuGet
 /src/packages/
