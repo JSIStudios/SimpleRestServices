@@ -87,13 +87,6 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Win32' ">
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SimpleRestServices\SimpleRestServices.v4.0.csproj">
-      <Name>SimpleRestServices.v4.0</Name>
-      <Project>{4a44eb7c-06d5-43f0-b660-f684cbaac99f}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ContentLayout Include="SimpleRestServices.content" />
   </ItemGroup>
   <ItemGroup>

@@ -15,10 +15,16 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{F5B9B422-570A-4797-8F59-7A8C13A8934D}"
 EndProject
 Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "Documentation.v4.0", "Documentation\Documentation.v4.0.shfbproj", "{7AC93313-D825-4668-A188-B7C9F21DDB37}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4A44EB7C-06D5-43F0-B660-F684CBAAC99F} = {4A44EB7C-06D5-43F0-B660-F684CBAAC99F}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleRestServices.v3.5", "SimpleRestServices\SimpleRestServices.v3.5.csproj", "{1960D862-8AD9-48BE-9290-B7E23EA03D5C}"
 EndProject
 Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "Documentation.v3.5", "Documentation\Documentation.v3.5.shfbproj", "{93356B99-D84C-4291-B739-EF8EC6A9B382}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1960D862-8AD9-48BE-9290-B7E23EA03D5C} = {1960D862-8AD9-48BE-9290-B7E23EA03D5C}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A57581E8-CE20-4E4A-81AA-B6BB5611D10F}"
 	ProjectSection(SolutionItems) = preProject
