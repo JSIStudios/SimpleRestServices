@@ -26,5 +26,5 @@ using System.Runtime.InteropServices;
 // Refer to the following issue before changing these version numbers:
 // https://github.com/JSIStudios/SimpleRestServices/issues/53
 [assembly: AssemblyVersion("1.3.0.0")]
-[assembly: AssemblyFileVersion("1.3.0.2")]
-[assembly: AssemblyInformationalVersion("1.3.0.2-dev")]
+[assembly: AssemblyFileVersion("1.3.0.3")]
+[assembly: AssemblyInformationalVersion("1.3.0.3-dev")]
