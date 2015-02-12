@@ -35,7 +35,8 @@
     <DocumentationFile>bin\v4.0\Release\SimpleRESTServices.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\..\..\keys\simplerestservices.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile Condition="'$(KeyConfiguration)' == 'Final'">..\..\build\keys\simplerestservices.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile Condition="'$(KeyConfiguration)' != 'Final'">..\..\build\keys\simplerestservices.dev.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
@@ -86,7 +87,10 @@
     <Compile Include="Server\EventArgs\RESTRequestStartedEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\keys\simplerestservices.snk">
+    <None Include="..\..\build\keys\simplerestservices.dev.snk">
+      <Link>simplerestservices.dev.snk</Link>
+    </None>
+    <None Include="..\..\build\keys\simplerestservices.snk">
       <Link>simplerestservices.snk</Link>
     </None>
     <None Include="packages.SimpleRestServices.v4.0.config" />
