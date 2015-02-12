@@ -416,6 +416,7 @@ namespace JSIStudios.SimpleRESTServices.Client
                     req.Method = method.ToString();
                     req.ContentType = settings.ContentType;
                     req.Accept = settings.Accept;
+                    req.AllowAutoRedirect = settings.AllowAutoRedirect;
                     if(settings.ContentLength > 0 || settings.AllowZeroContentLength)
                         req.ContentLength = settings.ContentLength;
 

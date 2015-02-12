@@ -159,6 +159,19 @@ namespace JSIStudios.SimpleRESTServices.Client
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether the request should follow redirection responses.
+        /// </summary>
+        /// <remarks>
+        /// <para>The default value is <see langword="true"/>.</para>
+        /// </remarks>
+        /// <value>
+        /// <see langword="true"/> if the request should follow redirection responses; otherwise,
+        /// <see langword="false"/>.
+        /// </value>
+        /// <seealso cref="HttpWebRequest.AllowAutoRedirect"/>
+        public bool AllowAutoRedirect { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="RequestSettings"/> class with the default values.
         /// </summary>
         public RequestSettings()
@@ -167,6 +180,7 @@ namespace JSIStudios.SimpleRESTServices.Client
             RetryDelay = TimeSpan.Zero;
             Non200SuccessCodes = null;
             Timeout = TimeSpan.FromMilliseconds(100000);
+            AllowAutoRedirect = true;
         }
     }
 }
