@@ -23,7 +23,7 @@
       <DocumentationSource sourceFile="..\SimpleRestServices\SimpleRestServices.v4.0.csproj" />
     </DocumentationSources>
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
-    <HelpFileFormat>HtmlHelp1, Website</HelpFileFormat>
+    <HelpFileFormat>Website</HelpFileFormat>
     <IndentHtml>False</IndentHtml>
     <KeepLogFile>True</KeepLogFile>
     <DisableCodeBlockComponent>False</DisableCodeBlockComponent>
@@ -34,7 +34,7 @@
     <RootNamespaceTitle>API Reference</RootNamespaceTitle>
     <RootNamespaceContainer>True</RootNamespaceContainer>
     <PresentationStyle>VS2013</PresentationStyle>
-    <Preliminary>True</Preliminary>
+    <Preliminary>False</Preliminary>
     <NamingMethod>MemberName</NamingMethod>
     <HelpTitle>SimpleRESTServices API Reference Documentation</HelpTitle>
     <FeedbackEMailAddress>openstack.net%40lists.rackspace.com</FeedbackEMailAddress>
@@ -46,7 +46,7 @@
     <VisibleItems>Attributes, ExplicitInterfaceImplementations, InheritedMembers, InheritedFrameworkMembers, Protected, ProtectedInternalAsProtected, SealedProtected</VisibleItems>
     <ComponentConfigurations>
       <ComponentConfig id="IntelliSense Component" enabled="True">
-        <component id="IntelliSense Component" type="Microsoft.Ddue.Tools.IntelliSenseComponent" assembly="{@SandcastlePath}ProductionTools\BuildComponents.dll">
+        <component id="IntelliSense Component">
           <output includeNamespaces="false" namespacesFile="Namespaces" folder="{@OutputFolder}\..\..\Api\v4.0" />
         </component>
       </ComponentConfig>
@@ -54,11 +54,7 @@
     <ApiFilter />
     <HelpAttributes />
     <NamespaceSummaries />
-    <PlugInConfigurations>
-      <PlugInConfig id="Lightweight TOC" enabled="True">
-        <configuration />
-      </PlugInConfig>
-    </PlugInConfigurations>
+    <PlugInConfigurations />
     <BuildLogFile />
     <HtmlHelp1xCompilerPath />
     <HtmlHelp2xCompilerPath />
